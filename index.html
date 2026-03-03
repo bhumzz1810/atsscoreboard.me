@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ATSScoreboard — Resume Checker</title>
+    <meta name="description"
+        content="ATSScoreboard helps job seekers score their resume against job descriptions and improve ATS match. Chrome extension + web service." />
+    <style>
+        :root {
+            --bg: #0c0f1a;
+            --surface: #141726;
+            --surface2: #1c2035;
+            --border: #252a40;
+            --border2: #2e3450;
+            --text: #e8eaf2;
+            --muted: #7880a0;
+            --blue: #4f8ef7;
+            --blue-dim: #162247;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --purple: #a78bfa;
+            --r: 14px;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        header,
+        main,
+        footer {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        nav a {
+            margin-right: 12px;
+            color: var(--text);
+            text-decoration: none;
+            opacity: .9
+        }
+
+        nav a:hover {
+            opacity: 1;
+            text-decoration: underline
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--surface), #111428);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 18px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid var(--border2);
+            color: var(--text);
+            background: transparent
+        }
+
+        .btn:hover {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(79, 142, 247, .12)
+        }
+
+        .btn.primary {
+            background: linear-gradient(180deg, var(--blue), #2f6fe6);
+            border-color: transparent;
+            color: #fff
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--blue-dim);
+            border: 1px solid rgba(79, 142, 247, .35);
+            font-size: 12px;
+            color: var(--blue)
+        }
+
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center
+        }
+
+        .hero h1 {
+            margin: 10px 0 8px;
+            font-size: 34px;
+            letter-spacing: .2px
+        }
+
+        ul {
+            margin: 10px 0 0 18px
+        }
+
+        li {
+            margin: 6px 0
+        }
+
+        a {
+            color: var(--blue)
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/index.html"><strong>ATSScoreboard</strong></a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/support.html">Support</a>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/terms.html">Terms</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card hero">
+            <div style="flex:1; min-width:260px;">
+                <span class="pill">Chrome Extension + API</span>
+                <h1>Score your resume against job descriptions.</h1>
+                <p class="muted">
+                    ATSScoreboard compares your resume to a job posting, generates an ATS-style match score,
+                    highlights missing keywords, and gives clear improvement steps.
+                </p>
+                <p>
+                    <a class="btn primary" href="/pricing.html">See Pricing</a>
+                    <a class="btn" href="/support.html">Contact Support</a>
+                </p>
+                <p class="muted" style="font-size:13px;margin-top:10px;">
+                    Not affiliated with any employer or job board.
+                </p>
+            </div>
+
+            <div class="card"
+                style="flex:1; min-width:260px; background:linear-gradient(180deg,var(--surface2),#121533);">
+                <strong>What you get</strong>
+                <ul>
+                    <li>Job description detection from your current tab</li>
+                    <li>Resume vs JD match score</li>
+                    <li>Missing keywords and skill gaps</li>
+                    <li>Pro: AI Coach for rewritten bullets and tailored suggestions</li>
+                </ul>
+            </div>
+        </section>
+
+        <section style="margin-top:16px;" class="grid">
+            <div class="card">
+                <strong>Free plan</strong>
+                <p class="muted">Quick match score + keyword gaps.</p>
+                <a class="btn" href="/pricing.html">View Free features</a>
+            </div>
+            <div class="card">
+                <strong>Pro plan</strong>
+                <p class="muted">Unlock AI Coach + advanced improvements.</p>
+                <a class="btn primary" href="/pricing.html">Upgrade to Pro</a>
+            </div>
+            <div class="card">
+                <strong>Privacy first</strong>
+                <p class="muted">We process only what’s needed to generate results.</p>
+                <a class="btn" href="/privacy.html">Read Privacy Policy</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="muted" style="font-size:13px;">
+            © <span id="y"></span> ATSScoreboard • <a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a>
+            • <a href="/support.html">Support</a>
+        </div>
+    </footer>
+
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+
+</html>

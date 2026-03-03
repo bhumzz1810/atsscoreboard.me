@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Support — ATSScoreboard</title>
+    <style>
+        :root {
+            --bg: #0c0f1a;
+            --surface: #141726;
+            --surface2: #1c2035;
+            --border: #252a40;
+            --border2: #2e3450;
+            --text: #e8eaf2;
+            --muted: #7880a0;
+            --blue: #4f8ef7;
+            --blue-dim: #162247;
+            --r: 14px;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        header,
+        main,
+        footer {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        nav a {
+            margin-right: 12px;
+            color: var(--text);
+            text-decoration: none;
+            opacity: .9
+        }
+
+        nav a:hover {
+            opacity: 1;
+            text-decoration: underline
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--surface), #111428);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 18px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        a {
+            color: var(--blue)
+        }
+
+        h1,
+        h2 {
+            margin-top: 0
+        }
+
+        ul {
+            margin: 8px 0 0 18px
+        }
+
+        li {
+            margin: 6px 0
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/index.html"><strong>ATSScoreboard</strong></a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/support.html">Support</a>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/terms.html">Terms</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card">
+            <h1>Support</h1>
+            <p class="muted">
+                Need help with billing, Pro access, or analysis results? Email us and include screenshots if possible.
+            </p>
+
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:support@atsscoreboard.me">support@atsscoreboard.me</a></p>
+
+            <h2>Common fixes</h2>
+            <ul>
+                <li>If analysis fails, reload the job page and run a new analysis.</li>
+                <li>If JD detection is wrong, highlight the correct JD text and retry.</li>
+                <li>For billing issues, include the email used at checkout.</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <div class="muted" style="font-size:13px;">
+            © <span id="y"></span> ATSScoreboard • <a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a>
+        </div>
+    </footer>
+
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+
+</html>
