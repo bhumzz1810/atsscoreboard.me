@@ -1,39 +1,32 @@
 # ATSScoreboard — Landing Site (atsscoreboard.me)
 
-This repository contains the **static landing website** for **ATSScoreboard** (Chrome extension + API).
+Static landing website for **ATSScoreboard** v2.2 (Chrome extension + API).
 
-Live site:
-- **https://atsscoreboard.me**
+Live site: **https://atsscoreboard.me**
 
----
+## Pages
 
-## Pages included
+- `index.html` — Landing page with hero, features, pricing preview, trust strip
+- `pricing.html` — Full 3-tier pricing (Starter/Pro/Elite) with FAQ
+- `privacy.html` — Privacy policy (updated March 2026)
+- `terms.html` — Terms of service with refund policy
+- `support.html` — Support page with common fixes and billing help
 
-- `index.html` — Landing page
-- `pricing.html` — Free vs Pro pricing
-- `privacy.html` — Privacy policy
-- `terms.html` — Terms + refund policy
-- `support.html` — Support/contact page
-
----
-
-## Stripe & Chrome Web Store links
-
-Use these URLs in Stripe and the Chrome Web Store listing:
+## Links for Stripe & Chrome Web Store
 
 - Website: `https://atsscoreboard.me`
-- Privacy Policy: `https://atsscoreboard.me/privacy.html`
+- Privacy: `https://atsscoreboard.me/privacy.html`
 - Terms: `https://atsscoreboard.me/terms.html`
 - Support: `https://atsscoreboard.me/support.html`
 
----
+## Tech
 
-## Support
+Pure HTML + CSS. No build step. Google Fonts (DM Serif Display + Source Sans 3). Google Analytics (G-2WJ45BS7VF).
+
+## Deploy
+
+Upload all HTML files to your static host (GitHub Pages, Netlify, Cloudflare Pages, etc.)
+
+## Contact
 
 Email: **bunnyparate7193@gmail.com**
-
----
-
-## License
-
-All rights reserved.

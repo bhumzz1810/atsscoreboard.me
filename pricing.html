@@ -3,178 +3,505 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Pricing — ATSScoreboard</title>
+    <meta name="description"
+        content="ATSScoreboard pricing — Free scoring forever, Pro $9/mo, Elite $19/mo. Cancel anytime." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&display=swap"
+        rel="stylesheet" />
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
         :root {
-            --bg: #0c0f1a;
-            --surface: #141726;
-            --surface2: #1c2035;
-            --border: #252a40;
-            --border2: #2e3450;
-            --text: #e8eaf2;
-            --muted: #7880a0;
-            --blue: #4f8ef7;
-            --blue-dim: #162247;
-            --r: 14px;
+            --cream: #faf6ef;
+            --cream-dark: #f0e9da;
+            --cream-deep: #e6dcc8;
+            --teal-900: #0d3b42;
+            --teal-700: #1a5c66;
+            --teal-500: #2a8090;
+            --teal-100: #d5eef2;
+            --bronze-700: #7a4f22;
+            --bronze-500: #9a6b35;
+            --bronze-200: #dfbf8e;
+            --bronze-50: #faf3ea;
+            --text: #1c2230;
+            --text-2: #3d4555;
+            --muted: #6b7280;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Source Sans 3', system-ui, sans-serif;
+            --r: 16px;
+            --r-lg: 24px;
+            --shadow: 0 8px 32px rgba(28, 34, 48, .08);
+            --shadow-lg: 0 20px 60px rgba(28, 34, 48, .12);
+        }
+
+        html {
+            scroll-behavior: smooth
         }
 
         body {
-            margin: 0;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            background: var(--bg);
+            font-family: var(--font-body);
             color: var(--text);
+            background: var(--cream);
+            -webkit-font-smoothing: antialiased
         }
 
-        header,
-        main,
-        footer {
-            max-width: 980px;
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(250, 246, 239, .85);
+            border-bottom: 1px solid rgba(26, 92, 102, .08)
+        }
+
+        .nav-inner {
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
         }
 
-        nav a {
-            margin-right: 12px;
-            color: var(--text);
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            opacity: .9
+            color: var(--text)
         }
 
-        nav a:hover {
-            opacity: 1;
-            text-decoration: underline
-        }
-
-        .card {
-            background: linear-gradient(180deg, var(--surface), #111428);
-            border: 1px solid var(--border);
-            border-radius: var(--r);
-            padding: 18px;
-            box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
-        }
-
-        .grid {
-            display: grid;
-            gap: 14px;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 12px;
-            text-decoration: none;
-            border: 1px solid var(--border2);
-            color: var(--text);
-            background: transparent
-        }
-
-        .btn.primary {
-            background: linear-gradient(180deg, var(--blue), #2f6fe6);
-            border-color: transparent;
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
             color: #fff
         }
 
-        .muted {
-            color: var(--muted)
+        .nav-name {
+            font-family: var(--font-display);
+            font-size: 18px
         }
 
-        .price {
-            font-size: 34px;
-            margin: 8px 0
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center
         }
 
-        .badge {
-            display: inline-block;
-            font-size: 12px;
-            padding: 5px 10px;
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-2);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 10px;
+            transition: all .2s
+        }
+
+        .nav-links a:hover {
+            background: rgba(26, 92, 102, .06);
+            color: var(--teal-700)
+        }
+
+        .nav-links .cta {
+            background: var(--teal-700);
+            color: #fff;
+            font-weight: 700
+        }
+
+        .nav-links .cta:hover {
+            background: var(--teal-900)
+        }
+
+        .page-wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 50px 24px 60px
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 44px);
+            color: var(--teal-900);
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            font-size: 17px;
+            color: var(--muted);
+            margin-bottom: 40px;
+            line-height: 1.6
+        }
+
+        .card {
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid rgba(26, 92, 102, .08);
+            border-radius: var(--r-lg);
+            padding: 32px 28px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow)
+        }
+
+        .card h2 {
+            font-family: var(--font-display);
+            font-size: 22px;
+            color: var(--teal-900);
+            margin-bottom: 10px
+        }
+
+        .card p,
+        .card li {
+            font-size: 15px;
+            color: var(--text-2);
+            line-height: 1.7
+        }
+
+        .card ul {
+            margin: 8px 0 0 18px
+        }
+
+        .card li {
+            margin: 6px 0
+        }
+
+        .card a {
+            color: var(--teal-700)
+        }
+
+        .footer {
+            background: var(--teal-900);
+            color: rgba(255, 255, 255, .7);
+            padding: 40px 24px;
+            margin-top: 40px
+        }
+
+        .footer-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, .8);
+            text-decoration: none;
+            font-size: 14px
+        }
+
+        .footer a:hover {
+            color: #fff
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            opacity: .6
+        }
+
+        /* Pricing-specific */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .price-card {
+            background: rgba(255, 255, 255, .6);
+            border: 1px solid rgba(26, 92, 102, .08);
+            border-radius: var(--r-lg);
+            padding: 32px 28px;
+            text-align: center;
+            transition: all .3s;
+            position: relative
+        }
+
+        .price-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .price-card.pop {
+            border: 2px solid var(--teal-500);
+            background: rgba(255, 255, 255, .9);
+            box-shadow: var(--shadow)
+        }
+
+        .pop-tag {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 16px;
             border-radius: 999px;
-            background: var(--blue-dim);
-            border: 1px solid rgba(79, 142, 247, .35);
-            color: var(--blue)
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
+            color: #fff
         }
 
-        ul {
-            margin: 10px 0 0 18px
+        .price-card h3 {
+            font-family: var(--font-display);
+            font-size: 26px;
+            margin-bottom: 4px
         }
 
-        a {
-            color: var(--blue)
+        .price-amt {
+            font-family: var(--font-display);
+            font-size: 48px;
+            color: var(--teal-700);
+            margin: 12px 0 4px
+        }
+
+        .price-amt span {
+            font-size: 16px;
+            color: var(--muted);
+            font-family: var(--font-body)
+        }
+
+        .price-tag {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            font-style: italic
+        }
+
+        .price-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 28px;
+            padding: 0
+        }
+
+        .price-list li {
+            font-size: 14px;
+            padding: 7px 0;
+            color: var(--text-2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(26, 92, 102, .04)
+        }
+
+        .price-list li:last-child {
+            border-bottom: none
+        }
+
+        .ck {
+            color: var(--teal-700);
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .xx {
+            color: var(--cream-deep);
+            flex-shrink: 0
+        }
+
+        .p-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .25s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            border: 2px solid
+        }
+
+        .p-btn.go {
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(26, 92, 102, .2)
+        }
+
+        .p-btn.go:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 92, 102, .28)
+        }
+
+        .p-btn.cur {
+            background: var(--cream);
+            color: var(--muted);
+            border-color: var(--cream-deep);
+            cursor: default
+        }
+
+        @media(max-width:680px) {
+            .nav-links a:not(.cta) {
+                display: none
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .price-card {
+            animation: fadeUp .5s ease-out both
+        }
+
+        .price-card:nth-child(2) {
+            animation-delay: .08s
+        }
+
+        .price-card:nth-child(3) {
+            animation-delay: .16s
         }
     </style>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2WJ45BS7VF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-2WJ45BS7VF');
-    </script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-2WJ45BS7VF');</script>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="/index.html"><strong>ATSScoreboard</strong></a>
-            <a href="/pricing.html">Pricing</a>
-            <a href="/support.html">Support</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/terms.html">Terms</a>
-        </nav>
-    </header>
 
-    <main>
-        <h1>Pricing</h1>
-        <p class="muted">Start free. Upgrade when you want AI-powered improvements.</p>
-
-        <div class="grid">
-            <div class="card">
-                <span class="badge">Free</span>
-                <div class="price">CA$0</div>
-                <div class="muted">For quick checks and keyword gaps.</div>
-                <ul>
-                    <li>ATS-style match score</li>
-                    <li>Missing keywords list</li>
-                    <li>Basic improvement tips</li>
-                    <li>Job description detection</li>
-                </ul>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo">⚡</div><span class="nav-name">ATSScoreboard</span>
+            </a>
+            <div class="nav-links">
+                <a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
+                    href="/privacy.html">Privacy</a>
+                <a class="cta"
+                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/dpkpnncgpjlejliaafnnhboakbpbihdo"
+                    target="_blank">Install Free</a>
             </div>
+        </div>
+    </nav>
 
-            <div class="card"
-                style="border:2px solid rgba(79,142,247,.7); background:linear-gradient(180deg,var(--surface2),#121533);">
-                <span class="badge">Pro</span>
-                <div class="price">CA$12<span style="font-size:16px;">/month</span></div>
-                <div class="muted">For active job seekers.</div>
-                <ul>
-                    <li><strong>AI Coach</strong>: tailored suggestions</li>
-                    <li>Bullet rewrites aligned to the JD</li>
-                    <li>Stronger keyword + skills guidance</li>
-                    <li>Priority processing</li>
+    <div class="page-wrap">
+        <h1 class="page-title">Simple, honest pricing</h1>
+        <p class="page-sub">Scoring is free forever. Upgrade only when you want AI-powered coaching. Cancel anytime.</p>
+
+        <div class="price-grid">
+            <div class="price-card">
+                <h3>Starter</h3>
+                <div class="price-amt">Free</div>
+                <div class="price-tag">No card required</div>
+                <ul class="price-list">
+                    <li><span class="ck">✓</span> ATS score & keyword analysis</li>
+                    <li><span class="ck">✓</span> Parse preview</li>
+                    <li><span class="ck">✓</span> 3 history entries per JD</li>
+                    <li><span class="ck">✓</span> 1 saved resume profile</li>
+                    <li><span class="xx">—</span> AI Coach</li>
+                    <li><span class="xx">—</span> Tailor wizard</li>
+                    <li><span class="xx">—</span> Company intel</li>
+                    <li><span class="xx">—</span> Export reports</li>
                 </ul>
-                <p><a class="btn primary" href="/support.html">Get Pro / Billing Help</a></p>
-                <p class="muted" style="font-size:13px;">Refunds: see <a href="/terms.html">Terms</a>.</p>
+                <span class="p-btn cur">Current plan</span>
+            </div>
+            <div class="price-card pop">
+                <div class="pop-tag">Most Popular</div>
+                <h3>Pro</h3>
+                <div class="price-amt">$9<span>/mo</span></div>
+                <div class="price-tag">Land more interviews</div>
+                <ul class="price-list">
+                    <li><span class="ck">✓</span> Everything in Starter</li>
+                    <li><span class="ck">✓</span> AI Coach (bullet rewrites)</li>
+                    <li><span class="ck">✓</span> Tailor wizard</li>
+                    <li><span class="ck">✓</span> Unlimited history</li>
+                    <li><span class="ck">✓</span> 4 saved resumes</li>
+                    <li><span class="ck">✓</span> Export reports</li>
+                    <li><span class="xx">—</span> Company intel</li>
+                    <li><span class="xx">—</span> Priority AI model</li>
+                </ul>
+                <a class="p-btn go"
+                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/dpkpnncgpjlejliaafnnhboakbpbihdo"
+                    target="_blank">Get Pro</a>
+            </div>
+            <div class="price-card">
+                <h3>Elite</h3>
+                <div class="price-amt">$19<span>/mo</span></div>
+                <div class="price-tag">Unfair advantage</div>
+                <ul class="price-list">
+                    <li><span class="ck">✓</span> Everything in Pro</li>
+                    <li><span class="ck">✓</span> Company culture intel</li>
+                    <li><span class="ck">✓</span> Priority AI (Claude Sonnet)</li>
+                    <li><span class="ck">✓</span> 8 saved resumes</li>
+                    <li><span class="ck">✓</span> Priority support</li>
+                </ul>
+                <a class="p-btn go"
+                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/dpkpnncgpjlejliaafnnhboakbpbihdo"
+                    target="_blank">Get Elite</a>
             </div>
         </div>
 
-        <div class="card" style="margin-top:14px;">
-            <strong>Refund policy</strong>
-            <p class="muted" style="margin-top:6px;">
-                If you were charged unexpectedly or Pro features don’t work as described, contact us within 7 days and
-                we’ll review a refund request.
-                Full details are in <a href="/terms.html">Terms</a>.
-            </p>
+        <div class="card">
+            <h2>Billing & refunds</h2>
+            <p>All payments processed securely through Stripe. You can manage your subscription — upgrade, downgrade, or
+                cancel — directly from the extension's AI Coach tab via the "Manage" button. Your subscription stays
+                active until the end of the billing period.</p>
+            <p style="margin-top:10px">If you were charged unexpectedly or Pro/Elite features don't work as described,
+                contact us within 7 days for a refund review. Full details in <a href="/terms.html">Terms</a>.</p>
         </div>
-    </main>
 
-    <footer>
-        <div class="muted" style="font-size:13px;">
-            © <span id="y"></span> ATSScoreboard • <a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a>
-            • <a href="/support.html">Support</a>
+        <div class="card">
+            <h2>FAQ</h2>
+            <p><strong>Do I need a credit card for the free plan?</strong><br>No. Install the extension and start
+                scoring immediately.</p>
+            <p style="margin-top:12px"><strong>Can I switch between Pro and Elite?</strong><br>Yes. Use the "Manage"
+                button in the extension or contact support.</p>
+            <p style="margin-top:12px"><strong>What AI model powers the coaching?</strong><br>Pro uses Claude Haiku
+                (fast, accurate). Elite uses Claude Sonnet (deeper analysis).</p>
+            <p style="margin-top:12px"><strong>Is my resume data stored?</strong><br>No. Resume and JD content is
+                processed transiently. See <a href="/privacy.html">Privacy Policy</a>.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div>
+                <div style="font-family:var(--font-display);font-size:18px;color:#fff;margin-bottom:6px">ATSScoreboard
+                </div>
+                <div class="footer-copy">© <span id="y"></span> ATSScoreboard. All rights reserved.</div>
+            </div>
+            <div class="footer-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
+                    href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
         </div>
     </footer>
-
     <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 

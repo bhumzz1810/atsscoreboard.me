@@ -3,174 +3,327 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Privacy Policy — ATSScoreboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&display=swap"
+        rel="stylesheet" />
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
         :root {
-            --bg: #0c0f1a;
-            --surface: #141726;
-            --surface2: #1c2035;
-            --border: #252a40;
-            --border2: #2e3450;
-            --text: #e8eaf2;
-            --muted: #7880a0;
-            --blue: #4f8ef7;
-            --blue-dim: #162247;
-            --r: 14px;
+            --cream: #faf6ef;
+            --cream-dark: #f0e9da;
+            --cream-deep: #e6dcc8;
+            --teal-900: #0d3b42;
+            --teal-700: #1a5c66;
+            --teal-500: #2a8090;
+            --teal-100: #d5eef2;
+            --bronze-700: #7a4f22;
+            --bronze-500: #9a6b35;
+            --bronze-200: #dfbf8e;
+            --text: #1c2230;
+            --text-2: #3d4555;
+            --muted: #6b7280;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Source Sans 3', system-ui, sans-serif;
+            --r-lg: 24px;
+            --shadow: 0 8px 32px rgba(28, 34, 48, .08)
+        }
+
+        html {
+            scroll-behavior: smooth
         }
 
         body {
-            margin: 0;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            background: var(--bg);
+            font-family: var(--font-body);
             color: var(--text);
+            background: var(--cream);
+            -webkit-font-smoothing: antialiased
         }
 
-        header,
-        main,
-        footer {
-            max-width: 980px;
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(250, 246, 239, .85);
+            border-bottom: 1px solid rgba(26, 92, 102, .08)
+        }
+
+        .nav-inner {
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
         }
 
-        nav a {
-            margin-right: 12px;
-            color: var(--text);
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            opacity: .9
+            color: var(--text)
         }
 
-        nav a:hover {
-            opacity: 1;
-            text-decoration: underline
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff
+        }
+
+        .nav-name {
+            font-family: var(--font-display);
+            font-size: 18px
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-2);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 10px;
+            transition: all .2s
+        }
+
+        .nav-links a:hover {
+            background: rgba(26, 92, 102, .06);
+            color: var(--teal-700)
+        }
+
+        .nav-links .cta {
+            background: var(--teal-700);
+            color: #fff;
+            font-weight: 700
+        }
+
+        .nav-links .cta:hover {
+            background: var(--teal-900)
+        }
+
+        .page-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 24px 60px
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 44px);
+            color: var(--teal-900);
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 32px
         }
 
         .card {
-            background: linear-gradient(180deg, var(--surface), #111428);
-            border: 1px solid var(--border);
-            border-radius: var(--r);
-            padding: 18px;
-            box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid rgba(26, 92, 102, .08);
+            border-radius: var(--r-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow)
         }
 
-        .muted {
-            color: var(--muted)
+        .card h2 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--teal-900);
+            margin: 28px 0 10px
         }
 
-        a {
-            color: var(--blue)
-        }
-
-        h1,
-        h2 {
+        .card h2:first-child {
             margin-top: 0
         }
 
-        ul {
+        .card p,
+        .card li {
+            font-size: 15px;
+            color: var(--text-2);
+            line-height: 1.7
+        }
+
+        .card ul {
             margin: 8px 0 0 18px
         }
 
-        li {
+        .card li {
             margin: 6px 0
         }
 
-        code {
-            background: #0e1222;
-            border: 1px solid var(--border);
+        .card a {
+            color: var(--teal-700)
+        }
+
+        .card code {
+            background: var(--cream-dark);
+            border: 1px solid var(--cream-deep);
             padding: 2px 6px;
-            border-radius: 8px;
-            color: var(--text)
+            border-radius: 6px;
+            font-size: 13px
+        }
+
+        .footer {
+            background: var(--teal-900);
+            color: rgba(255, 255, 255, .7);
+            padding: 40px 24px;
+            margin-top: 40px
+        }
+
+        .footer-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, .8);
+            text-decoration: none;
+            font-size: 14px
+        }
+
+        .footer a:hover {
+            color: #fff
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            opacity: .6
+        }
+
+        @media(max-width:680px) {
+            .nav-links a:not(.cta) {
+                display: none
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center
+            }
         }
     </style>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2WJ45BS7VF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-2WJ45BS7VF');
-    </script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-2WJ45BS7VF');</script>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="/index.html"><strong>ATSScoreboard</strong></a>
-            <a href="/pricing.html">Pricing</a>
-            <a href="/support.html">Support</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/terms.html">Terms</a>
-        </nav>
-    </header>
+    <nav class="nav">
+        <div class="nav-inner"><a href="/" class="nav-brand">
+                <div class="nav-logo">⚡</div><span class="nav-name">ATSScoreboard</span>
+            </a>
+            <div class="nav-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
+                    href="/privacy.html">Privacy</a><a class="cta"
+                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/dpkpnncgpjlejliaafnnhboakbpbihdo"
+                    target="_blank">Install Free</a></div>
+        </div>
+    </nav>
 
-    <main>
+    <div class="page-wrap">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="page-sub">Last updated: March 21, 2026</p>
+
         <div class="card">
-            <h1>Privacy Policy</h1>
-            <p class="muted">Last updated: 2026-03-02</p>
-
             <h2>What ATSScoreboard does</h2>
-            <p>
-                ATSScoreboard provides resume-to-job description matching, scoring, and improvement suggestions through
-                a Chrome extension and web service.
-            </p>
+            <p>ATSScoreboard is a Chrome extension and web service that compares your resume to job descriptions,
+                generates an ATS-style match score, identifies keyword gaps, and provides improvement suggestions
+                including AI-powered coaching.</p>
 
             <h2>Data we process</h2>
             <ul>
-                <li><strong>Resume content</strong> (text you paste or files you upload such as PDF/DOCX) for analysis.
-                </li>
-                <li><strong>Job description content</strong> extracted from the page you are viewing.</li>
-                <li><strong>Technical data</strong> (e.g., timestamps, request logs, IP address) for security and
-                    performance.</li>
+                <li><strong>Resume content</strong> — text you paste or files you upload (PDF/DOCX) for analysis.</li>
+                <li><strong>Job description content</strong> — extracted from the page you are viewing when you click
+                    Analyze.</li>
+                <li><strong>Technical data</strong> — timestamps, request logs, and IP address for security, rate
+                    limiting, and debugging.</li>
+                <li><strong>Billing data</strong> — managed by Stripe. We do not store your full card details.</li>
             </ul>
 
             <h2>How we use data</h2>
             <ul>
-                <li>Generate match scores and keyword-gap reports.</li>
-                <li>Provide Pro features such as AI-based suggestions and rewrites (if enabled).</li>
+                <li>Generate match scores, keyword-gap reports, and parse previews.</li>
+                <li>Provide Pro and Elite features such as AI coaching, tailor wizard, and company intel.</li>
                 <li>Protect the service from abuse (rate limiting) and maintain reliability.</li>
+                <li>Process subscription payments through Stripe.</li>
             </ul>
 
             <h2>Storage and retention</h2>
-            <p>
-                By default, we aim to process resume and job description content <strong>transiently</strong> to
-                generate results and do not store it long-term.
-                We may store limited logs for debugging, fraud prevention, and security.
+            <p>Resume and job description content is processed <strong>transiently</strong> — we generate results and do
+                not store this content long-term. Score history is stored locally in your browser's
+                <code>chrome.storage.local</code> and never sent to our servers. We may store limited server logs for
+                debugging, fraud prevention, and security.
             </p>
-            <p class="muted" style="font-size:13px;">
-                If we add “history” features later, we will update this policy with retention details and user controls.
-            </p>
+
+            <h2>AI providers</h2>
+            <p>Pro and Elite features use Anthropic (Claude) to generate AI coaching suggestions. When you click "Get AI
+                Analysis," relevant resume and JD text is sent to Anthropic's API for processing. Anthropic does not use
+                this data for training. See <a href="https://www.anthropic.com/privacy" target="_blank">Anthropic's
+                    privacy policy</a>.</p>
 
             <h2>Payments</h2>
-            <p>
-                Payments are processed by <strong>Stripe</strong>. We do not store your full card details.
-                Stripe may process your payment information according to their policies.
-            </p>
-
-            <h2>AI providers (Pro)</h2>
-            <p>
-                Pro features may use third-party AI providers (for example, Anthropic/Claude) to generate suggestions.
-                When enabled, relevant resume and job description text is sent to the provider for processing.
+            <p>All payments are processed by <a href="https://stripe.com/privacy" target="_blank">Stripe</a>. We do not
+                see or store your full card number. You can manage your subscription (cancel, update payment method,
+                view invoices) through the Stripe Customer Portal, accessible via the "Manage" button in the extension.
             </p>
 
             <h2>Your choices</h2>
             <ul>
-                <li>You can choose not to upload a resume file and paste text instead.</li>
-                <li>You can contact us to request deletion of any stored account/billing metadata.</li>
+                <li>Use the free plan with no account or payment information required.</li>
+                <li>Paste text instead of uploading files.</li>
+                <li>Clear your local score history from Chrome's extension storage at any time.</li>
+                <li>Cancel your subscription and request deletion of billing metadata by emailing us.</li>
             </ul>
 
             <h2>Contact</h2>
-            <p>Email: <a href="mailto:bunnyparate7193@gmail.com">bunnyparate7193@gmail.com</a></p>
+            <p>For privacy questions or data deletion requests: <a
+                    href="mailto:bunnyparate7193@gmail.com">bunnyparate7193@gmail.com</a></p>
         </div>
-    </main>
+    </div>
 
-    <footer>
-        <div class="muted" style="font-size:13px;">
-            © <span id="y"></span> ATSScoreboard • <a href="/terms.html">Terms</a> • <a href="/support.html">Support</a>
+    <footer class="footer">
+        <div class="footer-inner">
+            <div>
+                <div style="font-family:var(--font-display);font-size:18px;color:#fff;margin-bottom:6px">ATSScoreboard
+                </div>
+                <div class="footer-copy">© <span id="y"></span> ATSScoreboard. All rights reserved.</div>
+            </div>
+            <div class="footer-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
+                    href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
         </div>
     </footer>
-
     <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 

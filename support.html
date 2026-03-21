@@ -3,125 +3,317 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Support — ATSScoreboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&display=swap"
+        rel="stylesheet" />
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
         :root {
-            --bg: #0c0f1a;
-            --surface: #141726;
-            --surface2: #1c2035;
-            --border: #252a40;
-            --border2: #2e3450;
-            --text: #e8eaf2;
-            --muted: #7880a0;
-            --blue: #4f8ef7;
-            --blue-dim: #162247;
-            --r: 14px;
+            --cream: #faf6ef;
+            --cream-dark: #f0e9da;
+            --cream-deep: #e6dcc8;
+            --teal-900: #0d3b42;
+            --teal-700: #1a5c66;
+            --teal-500: #2a8090;
+            --teal-100: #d5eef2;
+            --bronze-700: #7a4f22;
+            --bronze-500: #9a6b35;
+            --bronze-200: #dfbf8e;
+            --text: #1c2230;
+            --text-2: #3d4555;
+            --muted: #6b7280;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Source Sans 3', system-ui, sans-serif;
+            --r-lg: 24px;
+            --shadow: 0 8px 32px rgba(28, 34, 48, .08)
+        }
+
+        html {
+            scroll-behavior: smooth
         }
 
         body {
-            margin: 0;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            background: var(--bg);
+            font-family: var(--font-body);
             color: var(--text);
+            background: var(--cream);
+            -webkit-font-smoothing: antialiased
         }
 
-        header,
-        main,
-        footer {
-            max-width: 980px;
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(250, 246, 239, .85);
+            border-bottom: 1px solid rgba(26, 92, 102, .08)
+        }
+
+        .nav-inner {
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
         }
 
-        nav a {
-            margin-right: 12px;
-            color: var(--text);
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            opacity: .9
+            color: var(--text)
         }
 
-        nav a:hover {
-            opacity: 1;
-            text-decoration: underline
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff
+        }
+
+        .nav-name {
+            font-family: var(--font-display);
+            font-size: 18px
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-2);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 10px;
+            transition: all .2s
+        }
+
+        .nav-links a:hover {
+            background: rgba(26, 92, 102, .06);
+            color: var(--teal-700)
+        }
+
+        .nav-links .cta {
+            background: var(--teal-700);
+            color: #fff;
+            font-weight: 700
+        }
+
+        .nav-links .cta:hover {
+            background: var(--teal-900)
+        }
+
+        .page-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 24px 60px
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 44px);
+            color: var(--teal-900);
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            font-size: 17px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.6
         }
 
         .card {
-            background: linear-gradient(180deg, var(--surface), #111428);
-            border: 1px solid var(--border);
-            border-radius: var(--r);
-            padding: 18px;
-            box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid rgba(26, 92, 102, .08);
+            border-radius: var(--r-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px
         }
 
-        .muted {
-            color: var(--muted)
+        .card h2 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--teal-900);
+            margin: 0 0 12px
         }
 
-        a {
-            color: var(--blue)
+        .card p,
+        .card li {
+            font-size: 15px;
+            color: var(--text-2);
+            line-height: 1.7
         }
 
-        h1,
-        h2 {
-            margin-top: 0
-        }
-
-        ul {
+        .card ul {
             margin: 8px 0 0 18px
         }
 
-        li {
+        .card li {
             margin: 6px 0
         }
-    </style>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2WJ45BS7VF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
 
-        gtag('config', 'G-2WJ45BS7VF');
-    </script>
+        .card a {
+            color: var(--teal-700)
+        }
+
+        .email-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(26, 92, 102, .25);
+            transition: all .25s;
+            margin-top: 8px
+        }
+
+        .email-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(26, 92, 102, .3)
+        }
+
+        .footer {
+            background: var(--teal-900);
+            color: rgba(255, 255, 255, .7);
+            padding: 40px 24px;
+            margin-top: 40px
+        }
+
+        .footer-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, .8);
+            text-decoration: none;
+            font-size: 14px
+        }
+
+        .footer a:hover {
+            color: #fff
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            opacity: .6
+        }
+
+        @media(max-width:680px) {
+            .nav-links a:not(.cta) {
+                display: none
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center
+            }
+        }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2WJ45BS7VF"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-2WJ45BS7VF');</script>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="/index.html"><strong>ATSScoreboard</strong></a>
-            <a href="/pricing.html">Pricing</a>
-            <a href="/support.html">Support</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/terms.html">Terms</a>
-        </nav>
-    </header>
+    <nav class="nav">
+        <div class="nav-inner"><a href="/" class="nav-brand">
+                <div class="nav-logo">⚡</div><span class="nav-name">ATSScoreboard</span>
+            </a>
+            <div class="nav-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
+                    href="/privacy.html">Privacy</a><a class="cta"
+                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/dpkpnncgpjlejliaafnnhboakbpbihdo"
+                    target="_blank">Install Free</a></div>
+        </div>
+    </nav>
 
-    <main>
+    <div class="page-wrap">
+        <h1 class="page-title">Support</h1>
+        <p class="page-sub">Need help with the extension, billing, or your analysis results? We're here.</p>
+
         <div class="card">
-            <h1>Support</h1>
-            <p class="muted">
-                Need help with billing, Pro access, or analysis results? Email us and include screenshots if possible.
-            </p>
+            <h2>Contact us</h2>
+            <p>Email us with your issue. Include screenshots if possible — it helps us resolve things faster.</p>
+            <a class="email-btn" href="mailto:bunnyparate7193@gmail.com">✉ bunnyparate7193@gmail.com</a>
+        </div>
 
-            <h2>Contact</h2>
-            <p>Email: <a href="mailto:bunnyparate7193@gmail.com">bunnyparate7193@gmail.com</a></p>
-
+        <div class="card">
             <h2>Common fixes</h2>
             <ul>
-                <li>If analysis fails, reload the job page and run a new analysis.</li>
-                <li>If JD detection is wrong, highlight the correct JD text and retry.</li>
-                <li>For billing issues, include the email used at checkout.</li>
+                <li><strong>Analysis fails or shows an error</strong> — Reload the job posting page, then click Analyze
+                    again. If the backend is cold-starting (Heroku), wait 10 seconds and retry.</li>
+                <li><strong>JD not detected correctly</strong> — Highlight the correct job description text on the page
+                    before clicking Analyze. The extension will use your highlighted text instead.</li>
+                <li><strong>Side panel doesn't open</strong> — Click the ATSScoreboard icon in the Chrome toolbar. If
+                    you don't see it, click the puzzle piece icon and pin ATSScoreboard.</li>
+                <li><strong>Score seems too low</strong> — Check the Parse Preview tab. If the parser couldn't read your
+                    PDF properly, try pasting the text instead.</li>
+                <li><strong>AI Coach says "requires Pro"</strong> — You need an active Pro ($9/mo) or Elite ($19/mo)
+                    subscription. Click one of the plan buttons in the AI Coach tab to subscribe.</li>
             </ul>
         </div>
-    </main>
 
-    <footer>
-        <div class="muted" style="font-size:13px;">
-            © <span id="y"></span> ATSScoreboard • <a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a>
+        <div class="card">
+            <h2>Billing & subscription</h2>
+            <ul>
+                <li><strong>Cancel your subscription</strong> — Open the extension → AI Coach tab → click "Manage" →
+                    this opens the Stripe Customer Portal where you can cancel.</li>
+                <li><strong>Update payment method</strong> — Same as above — the Stripe portal lets you update your
+                    card.</li>
+                <li><strong>Request a refund</strong> — Email us within 7 days of the charge. Include the email address
+                    you used at checkout.</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div>
+                <div style="font-family:var(--font-display);font-size:18px;color:#fff;margin-bottom:6px">ATSScoreboard
+                </div>
+                <div class="footer-copy">© <span id="y"></span> ATSScoreboard. All rights reserved.</div>
+            </div>
+            <div class="footer-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
+                    href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
         </div>
     </footer>
-
     <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 
