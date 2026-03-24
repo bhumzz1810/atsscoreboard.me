@@ -7,13 +7,18 @@
     <title>ATSScoreboard — Resume Checker Chrome Extension</title>
     <meta name="description"
         content="Score your resume against any job description. AI-powered coaching, keyword tailoring, and ATS optimization. Free Chrome extension." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&display=swap"
-        rel="stylesheet" />
+    <meta property="og:title" content="ATSScoreboard — Resume Checker Chrome Extension" />
+    <meta property="og:description"
+        content="Score your resume against any job description. AI-powered coaching, keyword tailoring, and ATS optimization." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://atsscoreboard.me/" />
+    <meta name="theme-color" content="#0d3b42" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/ats-logo.svg" type="image/svg+xml" />
     <style>
-        * {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box
@@ -24,9 +29,12 @@
             --cream-dark: #f0e9da;
             --cream-deep: #e6dcc8;
             --teal-900: #0d3b42;
+            --teal-800: #114a52;
             --teal-700: #1a5c66;
             --teal-500: #2a8090;
+            --teal-400: #3a9aaa;
             --teal-100: #d5eef2;
+            --teal-50: #eaf7fa;
             --bronze-700: #7a4f22;
             --bronze-500: #9a6b35;
             --bronze-200: #dfbf8e;
@@ -35,44 +43,103 @@
             --text-2: #3d4555;
             --muted: #6b7280;
             --green: #2a6647;
-            --red: #a83530;
-            --font-display: 'DM Serif Display', Georgia, serif;
-            --font-body: 'Source Sans 3', system-ui, sans-serif;
+            --green-light: #e5f4ec;
+            --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+            --font-body: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
             --r: 16px;
             --r-lg: 24px;
+            --r-xl: 32px;
             --shadow: 0 8px 32px rgba(28, 34, 48, .08);
-            --shadow-lg: 0 20px 60px rgba(28, 34, 48, .12);
+            --shadow-lg: 0 20px 60px rgba(28, 34, 48, .14);
+            --shadow-xl: 0 32px 80px rgba(28, 34, 48, .18);
         }
 
-        html {
-            scroll-behavior: smooth
+        @media (prefers-reduced-motion: no-preference) {
+            html { scroll-behavior: smooth }
         }
 
         body {
             font-family: var(--font-body);
             color: var(--text);
             background: var(--cream);
-            -webkit-font-smoothing: antialiased
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── Skip to content (a11y) ── */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            background: var(--teal-700);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 0 0 10px 10px;
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 10000;
+            transition: top .2s;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 0
+        }
+
+        /* ── Grain overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: .6;
+        }
+
+        /* ── Scroll progress bar ── */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--teal-500), var(--bronze-500));
+            z-index: 9999;
+            transition: width .1s linear;
+        }
+
+        /* ── Focus styles ── */
+        :focus-visible {
+            outline: 2px solid var(--teal-500);
+            outline-offset: 3px;
+            border-radius: 4px;
         }
 
         /* ── Nav ── */
         .nav {
             position: sticky;
             top: 0;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: rgba(250, 246, 239, .85);
-            border-bottom: 1px solid rgba(26, 92, 102, .08)
+            z-index: 500;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            background: rgba(250, 246, 239, .88);
+            border-bottom: 1px solid rgba(26, 92, 102, .07);
+            transition: box-shadow .3s, background .3s;
+        }
+
+        .nav.scrolled {
+            box-shadow: 0 4px 24px rgba(28, 34, 48, .08);
+            background: rgba(250, 246, 239, .95);
         }
 
         .nav-inner {
             max-width: 1080px;
             margin: 0 auto;
-            padding: 14px 24px;
+            padding: 13px 24px;
             display: flex;
             align-items: center;
-            justify-content: space-between
+            justify-content: space-between;
         }
 
         .nav-brand {
@@ -80,30 +147,33 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--text)
+            color: var(--text);
         }
 
         .nav-logo {
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #fff
+            box-shadow: 0 2px 8px rgba(26, 92, 102, .3);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .nav-name {
             font-family: var(--font-display);
-            font-size: 18px;
-            letter-spacing: .3px
+            font-size: 19px;
+            letter-spacing: .2px
         }
 
         .nav-links {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             align-items: center
         }
 
@@ -114,71 +184,161 @@
             font-weight: 600;
             padding: 7px 14px;
             border-radius: 10px;
-            transition: all .2s
+            transition: all .2s;
         }
 
-        .nav-links a:hover {
-            background: rgba(26, 92, 102, .06);
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(26, 92, 102, .07);
             color: var(--teal-700)
         }
 
         .nav-links .cta {
-            background: var(--teal-700);
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
             color: #fff;
-            font-weight: 700
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(26, 92, 102, .25);
         }
 
         .nav-links .cta:hover {
-            background: var(--teal-900)
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(26, 92, 102, .3);
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+            color: #fff
         }
 
-        /* ── Sections ── */
-        section {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: 0 24px
+        /* ── Mobile hamburger ── */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            position: relative;
+            z-index: 600;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            margin: 5px auto;
+            border-radius: 2px;
+            transition: all .3s;
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px)
+        }
+
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0
+        }
+
+        .nav-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px)
         }
 
         /* ── Hero ── */
         .hero {
-            padding-top: 80px;
-            padding-bottom: 70px;
+            padding: 90px 24px 80px;
             text-align: center;
-            position: relative
+            position: relative;
+            overflow: hidden;
+            max-width: 100%;
         }
 
-        .hero::before {
-            content: '';
+        .hero-bg {
             position: absolute;
-            top: -100px;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            will-change: transform;
+            transition: transform .1s linear;
+        }
+
+        .hero-orb-1 {
+            width: 700px;
+            height: 700px;
+            top: -200px;
             left: 50%;
             transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(26, 92, 102, .06) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0
+            background: radial-gradient(circle, rgba(42, 128, 144, .09) 0%, transparent 70%);
         }
 
-        .hero>* {
+        .hero-orb-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(154, 107, 53, .07) 0%, transparent 70%);
+        }
+
+        .hero-orb-3 {
+            width: 350px;
+            height: 350px;
+            top: 100px;
+            left: -80px;
+            background: radial-gradient(circle, rgba(42, 128, 144, .05) 0%, transparent 70%);
+        }
+
+        .hero-inner {
             position: relative;
-            z-index: 1
+            z-index: 1;
+            max-width: 1180px;
+            margin: 0 auto
+        }
+
+        .hero-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr);
+            gap: 44px;
+            align-items: center;
+        }
+
+        .hero-copy {
+            text-align: left;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 7px 16px;
+            padding: 6px 16px;
             border-radius: 999px;
-            background: var(--teal-100);
+            background: rgba(213, 238, 242, .7);
             color: var(--teal-700);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: .4px;
-            margin-bottom: 22px;
-            border: 1px solid rgba(26, 92, 102, .15)
+            letter-spacing: .6px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(26, 92, 102, .14);
+            backdrop-filter: blur(8px);
+            text-transform: uppercase;
+        }
+
+        .hero-kicker {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            color: var(--teal-700);
+            font-weight: 700;
+        }
+
+        .hero-kicker-line {
+            width: 52px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--teal-500), rgba(154, 107, 53, .2));
         }
 
         .hero-badge .dot {
@@ -186,55 +346,72 @@
             height: 6px;
             border-radius: 50%;
             background: var(--teal-500);
-            animation: pulse 2s infinite
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
 
             0%,
             100% {
-                opacity: 1
+                opacity: 1;
+                transform: scale(1)
             }
 
             50% {
-                opacity: .3
+                opacity: .3;
+                transform: scale(.8)
             }
         }
 
         .hero h1 {
             font-family: var(--font-display);
-            font-size: clamp(36px, 5.5vw, 62px);
-            line-height: 1.1;
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.07;
             color: var(--teal-900);
-            margin-bottom: 20px;
-            letter-spacing: -.5px
+            margin-bottom: 22px;
+            letter-spacing: -.5px;
         }
 
         .hero h1 em {
-            font-style: normal;
-            color: var(--bronze-500)
+            font-style: italic;
+            color: var(--bronze-500);
+            position: relative;
         }
 
-        .hero p {
+        .hero h1 em::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 2px;
+            width: 100%;
+            height: 6px;
+            background: rgba(154, 107, 53, .15);
+            border-radius: 3px;
+            z-index: -1;
+        }
+
+        .hero-sub {
             font-size: clamp(16px, 2vw, 19px);
             color: var(--muted);
-            max-width: 620px;
-            margin: 0 auto 32px;
-            line-height: 1.7
+            max-width: 600px;
+            margin: 0 0 28px;
+            line-height: 1.75;
+            font-weight: 400;
         }
 
         .hero-actions {
             display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap
+            gap: 14px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 13px 26px;
+            padding: 14px 28px;
             border-radius: 14px;
             font-family: var(--font-body);
             font-size: 15px;
@@ -242,24 +419,39 @@
             text-decoration: none;
             transition: all .25s;
             border: 2px solid transparent;
-            cursor: pointer
+            cursor: pointer;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
             color: #fff;
-            box-shadow: 0 4px 16px rgba(26, 92, 102, .25)
+            box-shadow: 0 4px 20px rgba(26, 92, 102, .3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .1), transparent);
+            opacity: 0;
+            transition: opacity .25s;
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(26, 92, 102, .3)
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(26, 92, 102, .35)
         }
 
         .btn-secondary {
             background: var(--bronze-50);
             color: var(--bronze-700);
-            border-color: var(--bronze-200)
+            border-color: var(--bronze-200);
         }
 
         .btn-secondary:hover {
@@ -268,26 +460,291 @@
         }
 
         .hero-note {
-            margin-top: 20px;
             font-size: 13px;
+            color: var(--muted);
+            opacity: .85
+        }
+
+        .hero-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 28px;
+            grid-column: 1 / -1;
+        }
+
+        .hero-proof-card {
+            padding: 16px 16px 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid rgba(26, 92, 102, .1);
+            box-shadow: var(--shadow);
+            text-align: left;
+        }
+
+        .hero-proof-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--teal-700);
+        }
+
+        .hero-proof-label::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--teal-500), var(--bronze-500));
+            box-shadow: 0 0 0 4px rgba(42, 128, 144, .12);
+        }
+
+        .hero-proof-card strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 15px;
+            line-height: 1.35;
+            color: var(--teal-900);
+        }
+
+        .hero-proof-card p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-2);
+        }
+
+        /* ── Hero card mockup ── */
+        .hero-mockup-wrap {
+            margin: 52px auto 0;
+            max-width: 520px;
+            position: relative;
+        }
+
+        .hero-mockup {
+            background: rgba(255, 255, 255, .92);
+            border: 1px solid rgba(26, 92, 102, .1);
+            border-radius: var(--r-xl);
+            padding: 24px;
+            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, .8);
+            backdrop-filter: blur(12px);
+            text-align: left;
+        }
+
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--cream-dark);
+        }
+
+        .mockup-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: center / cover no-repeat url('/assets/ats-logo.svg');
+            color: transparent;
+            font-size: 0;
+        }
+
+        .mockup-icon img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .mockup-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            color: var(--teal-900)
+        }
+
+        .mockup-sub {
+            font-size: 11px;
             color: var(--muted)
         }
 
-        /* ── Features grid ── */
-        .features {
-            padding: 60px 24px
+        .mockup-score-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px
+        }
+
+        .mockup-score-item {
+            flex: 1;
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .mockup-score-label {
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 4px
+        }
+
+        .mockup-score-val {
+            font-family: var(--font-display);
+            font-size: 22px;
+            color: var(--teal-700);
+        }
+
+        .mockup-score-val.good {
+            color: var(--green)
+        }
+
+        .mockup-score-val.warn {
+            color: var(--bronze-500)
+        }
+
+        .mockup-bar-row {
+            margin-bottom: 14px
+        }
+
+        .mockup-bar-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-2);
+            margin-bottom: 5px;
+        }
+
+        .mockup-bar-track {
+            height: 6px;
+            background: var(--cream-dark);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .mockup-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--teal-500), var(--teal-700));
+            transition: width 1.4s cubic-bezier(.25, .8, .25, 1);
+            width: 0%;
+        }
+
+        .mockup-bar-fill.bronze {
+            background: linear-gradient(90deg, var(--bronze-200), var(--bronze-500))
+        }
+
+        .mockup-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+
+        .mockup-keyword {
+            font-size: 10px;
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+
+        .mockup-keyword.found {
+            background: var(--teal-100);
+            color: var(--teal-700)
+        }
+
+        .mockup-keyword.miss {
+            background: #fde8e8;
+            color: #a83530
+        }
+
+        /* Floating badges on mockup */
+        .mockup-float {
+            position: absolute;
+            background: rgba(255, 255, 255, .95);
+            border: 1px solid rgba(26, 92, 102, .1);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 8px 24px rgba(28, 34, 48, .12);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .mockup-float-1 {
+            top: -16px;
+            right: -20px;
+            color: var(--green);
+            animation: floatA 4s ease-in-out infinite
+        }
+
+        .mockup-float-2 {
+            bottom: 20px;
+            left: -30px;
+            color: var(--bronze-700);
+            animation: floatB 4.5s ease-in-out infinite
+        }
+
+        @keyframes floatA {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-6px)
+            }
+        }
+
+        @keyframes floatB {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(5px)
+            }
+        }
+
+        /* ── Section common ── */
+        .section-wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px
         }
 
         .section-label {
             text-align: center;
-            margin-bottom: 48px
+            margin-bottom: 52px
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--teal-500);
+            margin-bottom: 12px;
         }
 
         .section-label h2 {
             font-family: var(--font-display);
-            font-size: clamp(28px, 4vw, 40px);
+            font-size: clamp(28px, 4vw, 42px);
             color: var(--teal-900);
-            margin-bottom: 12px
+            margin-bottom: 14px;
+            line-height: 1.15;
         }
 
         .section-label p {
@@ -295,29 +752,119 @@
             color: var(--muted);
             max-width: 560px;
             margin: 0 auto;
-            line-height: 1.6
+            line-height: 1.7
+        }
+
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: var(--cream-dark);
+            margin: 0;
+        }
+
+        /* ── How it works ── */
+        .how {
+            padding: 80px 24px
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0;
+            position: relative
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--teal-100) 20%, var(--bronze-200) 80%, transparent);
+        }
+
+        .step {
+            text-align: center;
+            padding: 0 24px;
+            position: relative
+        }
+
+        .step-num {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 16px rgba(26, 92, 102, .3);
+            transition: transform .3s, box-shadow .3s;
+        }
+
+        .step:hover .step-num {
+            transform: scale(1.1);
+            box-shadow: 0 8px 28px rgba(26, 92, 102, .4)
+        }
+
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--teal-900);
+            margin-bottom: 8px
+        }
+
+        .step p {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.65
+        }
+
+        /* ── Features ── */
+        .features {
+            padding: 80px 24px
         }
 
         .feat-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
         }
 
         .feat-card {
-            background: rgba(255, 255, 255, .7);
+            background: rgba(255, 255, 255, .75);
             border: 1px solid rgba(26, 92, 102, .08);
             border-radius: var(--r-lg);
-            padding: 28px 26px;
-            transition: all .3s;
+            padding: 30px 26px;
+            transition: all .35s cubic-bezier(.25, .8, .25, 1);
             position: relative;
-            overflow: hidden
+            overflow: hidden;
+            cursor: default;
+        }
+
+        .feat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(42, 128, 144, .04), transparent);
+            opacity: 0;
+            transition: opacity .35s;
         }
 
         .feat-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-lg);
-            border-color: rgba(26, 92, 102, .15)
+            border-color: rgba(26, 92, 102, .16)
+        }
+
+        .feat-card:hover::before {
+            opacity: 1
         }
 
         .feat-card::after {
@@ -327,123 +874,135 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--teal-700), var(--bronze-500));
-            opacity: 0;
-            transition: opacity .3s
+            background: linear-gradient(90deg, var(--teal-500), var(--bronze-500));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s cubic-bezier(.25, .8, .25, 1);
         }
 
         .feat-card:hover::after {
-            opacity: 1
+            transform: scaleX(1)
         }
 
         .feat-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            margin-bottom: 16px
+            font-size: 22px;
+            margin-bottom: 18px;
+            transition: transform .3s;
+        }
+
+        .feat-card:hover .feat-icon {
+            transform: scale(1.1)
         }
 
         .feat-icon.teal {
-            background: var(--teal-100);
-            color: var(--teal-700)
+            background: var(--teal-100)
         }
 
         .feat-icon.bronze {
-            background: var(--bronze-50);
-            color: var(--bronze-700)
+            background: var(--bronze-50)
         }
 
         .feat-icon.green {
-            background: #e8f5ee;
-            color: var(--green)
+            background: var(--green-light)
         }
 
         .feat-card h3 {
             font-family: var(--font-display);
             font-size: 20px;
             margin-bottom: 8px;
-            color: var(--text)
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .feat-card p {
             font-size: 14px;
             color: var(--muted);
-            line-height: 1.65
+            line-height: 1.7
         }
 
-        .feat-card .badge-pro {
+        .badge-pro {
             display: inline-block;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             padding: 3px 8px;
             border-radius: 6px;
             background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
             color: #fff;
-            letter-spacing: .5px;
-            margin-left: 6px;
-            vertical-align: middle
+            letter-spacing: .6px;
+            vertical-align: middle;
+            font-family: var(--font-body);
         }
 
         /* ── Pricing preview ── */
         .pricing-preview {
-            padding: 60px 24px 40px
+            padding: 80px 24px 60px
         }
 
         .price-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            align-items: stretch;
         }
 
         .price-card {
-            background: rgba(255, 255, 255, .6);
-            border: 1px solid rgba(26, 92, 102, .08);
-            border-radius: var(--r-lg);
-            padding: 32px 28px;
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid rgba(26, 92, 102, .09);
+            border-radius: var(--r-xl);
+            padding: 34px 28px;
             text-align: center;
-            transition: all .3s;
-            position: relative
+            transition: all .35s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .price-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-lg)
         }
 
         .price-card.popular {
             border: 2px solid var(--teal-500);
-            background: rgba(255, 255, 255, .9);
-            box-shadow: var(--shadow)
+            background: rgba(255, 255, 255, .95);
+            box-shadow: var(--shadow), 0 0 0 4px rgba(42, 128, 144, .06);
         }
 
         .price-popular-tag {
             position: absolute;
-            top: -12px;
+            top: -13px;
             left: 50%;
             transform: translateX(-50%);
             padding: 4px 16px;
             border-radius: 999px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: .5px;
+            letter-spacing: .7px;
             text-transform: uppercase;
             background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
-            color: #fff
+            color: #fff;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(26, 92, 102, .25);
         }
 
         .price-card h3 {
             font-family: var(--font-display);
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 4px
         }
 
         .price-amount {
             font-family: var(--font-display);
-            font-size: 42px;
+            font-size: 46px;
             color: var(--teal-700);
             margin: 12px 0 4px
         }
@@ -455,42 +1014,47 @@
         }
 
         .price-sub {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--muted);
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             font-style: italic
         }
 
         .price-features {
             list-style: none;
             text-align: left;
-            margin-bottom: 24px
+            margin-bottom: 28px;
+            flex: 1
         }
 
         .price-features li {
-            font-size: 14px;
-            padding: 6px 0;
+            font-size: 13.5px;
+            padding: 7px 0;
             color: var(--text-2);
             display: flex;
             align-items: center;
-            gap: 8px
+            gap: 9px;
+            border-bottom: 1px solid rgba(26, 92, 102, .08);
         }
 
-        .price-features .check {
+        .price-features li:last-child {
+            border-bottom: none
+        }
+
+        .check {
             color: var(--teal-700);
             font-weight: 700;
             flex-shrink: 0
         }
 
-        .price-features .cross {
-            color: var(--cream-deep);
+        .cross {
+            color: var(--muted);
             flex-shrink: 0
         }
 
         .price-cta {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 13px;
+            border-radius: 14px;
             font-family: var(--font-body);
             font-size: 15px;
             font-weight: 700;
@@ -499,80 +1063,303 @@
             text-decoration: none;
             display: block;
             text-align: center;
-            border: 2px solid
+            border: 2px solid;
         }
 
         .price-cta.upgrade {
             background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
             color: #fff;
             border-color: transparent;
-            box-shadow: 0 4px 14px rgba(26, 92, 102, .2)
+            box-shadow: 0 4px 16px rgba(26, 92, 102, .22);
         }
 
         .price-cta.upgrade:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26, 92, 102, .28)
+            box-shadow: 0 8px 24px rgba(26, 92, 102, .32)
         }
 
         .price-cta.current {
             background: var(--cream);
             color: var(--muted);
             border-color: var(--cream-deep);
-            cursor: default
+            cursor: default;
         }
 
-        /* ── Trust strip ── */
-        .trust {
-            padding: 40px 24px 60px;
-            text-align: center
+        /* ── Social proof / Testimonials ── */
+        .social-proof {
+            padding: 60px 24px 30px;
         }
 
-        .trust-items {
+        .social-strip {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            align-items: center;
+            gap: 36px;
             flex-wrap: wrap;
-            margin-top: 16px
+            padding: 22px 28px;
+            border-radius: var(--r-xl);
+            background: rgba(255, 255, 255, .72);
+            border: 1px solid rgba(26, 92, 102, .08);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-stat {
+            text-align: center;
+        }
+
+        .social-stat-num {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 3vw, 38px);
+            color: var(--teal-700);
+        }
+
+        .social-stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .social-divider {
+            width: 1px;
+            height: 40px;
+            background: var(--cream-deep);
+        }
+
+        .testimonials {
+            padding: 40px 24px 80px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, .8);
+            border: 1px solid rgba(26, 92, 102, .06);
+            border-radius: var(--r-lg);
+            padding: 28px 24px;
+            position: relative;
+            transition: transform .3s, box-shadow .3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-family: var(--font-display);
+            font-size: 60px;
+            color: var(--teal-100);
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-size: 14.5px;
+            color: var(--text-2);
+            line-height: 1.7;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .testimonial-role {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .testimonial-stars {
+            color: var(--bronze-500);
+            font-size: 13px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Trust ── */
+        .trust {
+            padding: 40px 24px 72px
+        }
+
+        .trust-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
         }
 
         .trust-item {
+            flex: 1;
+            min-width: 200px;
             font-size: 14px;
-            color: var(--muted);
+            color: var(--text-2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 24px 20px;
+            border-right: 1px solid var(--cream-dark);
+            text-align: center;
+        }
+
+        .trust-item:last-child {
+            border-right: none
+        }
+
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--teal-100);
             display: flex;
             align-items: center;
-            gap: 8px
+            justify-content: center;
+            font-size: 18px;
         }
 
         .trust-item strong {
-            color: var(--text-2)
+            font-weight: 700;
+            color: var(--text)
+        }
+
+        .trust-item span {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* ── Final CTA ── */
+        .final-cta {
+            padding: 80px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--teal-50) 50%, var(--cream) 100%);
+            pointer-events: none;
+        }
+
+        .final-cta-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .final-cta h2 {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 40px);
+            color: var(--teal-900);
+            margin-bottom: 14px;
+        }
+
+        .final-cta p {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 28px;
         }
 
         /* ── Footer ── */
         .footer {
             background: var(--teal-900);
-            color: rgba(255, 255, 255, .7);
-            padding: 40px 24px;
-            margin-top: 40px
+            color: rgba(255, 255, 255, .65);
+            padding: 56px 24px 36px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(42, 128, 144, .15) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .footer-inner {
             max-width: 1080px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 48px;
+            align-items: start;
+            position: relative;
+        }
+
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 10px
+        }
+
+        .footer-brand-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+            flex-shrink: 0;
+        }
+
+        .footer-brand-mark img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            max-width: 320px;
+            line-height: 1.65;
+            margin-bottom: 24px
+        }
+
+        .footer-bottom {
+            max-width: 1080px;
+            margin: 32px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, .1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px
+            gap: 12px;
+            position: relative;
         }
 
-        .footer a {
-            color: rgba(255, 255, 255, .8);
-            text-decoration: none;
-            font-size: 14px
-        }
-
-        .footer a:hover {
-            color: #fff
+        .footer-copy {
+            font-size: 12px;
+            opacity: .5
         }
 
         .footer-links {
@@ -580,44 +1367,76 @@
             gap: 20px
         }
 
-        .footer-copy {
-            font-size: 13px;
-            opacity: .6
+        .footer-links a {
+            color: rgba(255, 255, 255, .7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color .2s
         }
 
-        /* ── Responsive ── */
-        @media(max-width:680px) {
-            .nav-links a:not(.cta) {
-                display: none
-            }
-
-            .hero {
-                padding-top: 50px;
-                padding-bottom: 50px
-            }
-
-            .hero-actions {
-                flex-direction: column;
-                align-items: center
-            }
-
-            .trust-items {
-                flex-direction: column;
-                align-items: center;
-                gap: 16px
-            }
-
-            .footer-inner {
-                flex-direction: column;
-                text-align: center
-            }
+        .footer-links a:hover {
+            color: #fff
         }
 
-        /* ── Animations ── */
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+            margin-bottom: 14px
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255, 255, 255, .7);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 8px;
+            transition: color .2s
+        }
+
+        .footer-col a:hover {
+            color: #fff
+        }
+
+        /* ── Scroll-reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .65s ease, transform .65s ease
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .reveal-delay-1 {
+            transition-delay: .1s
+        }
+
+        .reveal-delay-2 {
+            transition-delay: .2s
+        }
+
+        .reveal-delay-3 {
+            transition-delay: .3s
+        }
+
+        .reveal-delay-4 {
+            transition-delay: .4s
+        }
+
+        .reveal-delay-5 {
+            transition-delay: .5s
+        }
+
+        /* Hero specific animations */
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(20px)
+                transform: translateY(22px)
             }
 
             to {
@@ -626,217 +1445,735 @@
             }
         }
 
-        .hero h1,
-        .hero p,
-        .hero-actions,
         .hero-badge {
-            animation: fadeUp .6s ease-out both
-        }
-
-        .hero p {
-            animation-delay: .1s
-        }
-
-        .hero-actions {
-            animation-delay: .2s
-        }
-
-        .feat-card,
-        .price-card {
             animation: fadeUp .5s ease-out both
         }
 
-        .feat-card:nth-child(2),
-        .price-card:nth-child(2) {
-            animation-delay: .08s
+        .hero h1 {
+            animation: fadeUp .6s .08s ease-out both
         }
 
-        .feat-card:nth-child(3),
-        .price-card:nth-child(3) {
-            animation-delay: .16s
+        .hero-sub {
+            animation: fadeUp .6s .16s ease-out both
         }
 
-        .feat-card:nth-child(4) {
-            animation-delay: .24s
+        .hero-actions {
+            animation: fadeUp .6s .24s ease-out both
         }
 
-        .feat-card:nth-child(5) {
-            animation-delay: .32s
+        .hero-note {
+            animation: fadeUp .6s .3s ease-out both
         }
 
-        .feat-card:nth-child(6) {
-            animation-delay: .4s
+        .hero-proof-grid {
+            animation: fadeUp .7s .36s ease-out both
+        }
+
+        .hero-mockup-wrap {
+            animation: fadeUp .8s .4s ease-out both
+        }
+
+        /* ── Responsive ── */
+        @media(max-width:900px) {
+            .hero-shell {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .hero-copy {
+                text-align: center;
+            }
+
+            .hero-sub {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-proof-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feat-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .price-row {
+                grid-template-columns: 1fr
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr
+            }
+
+            .steps::before {
+                display: none
+            }
+        }
+
+        @media(max-width:680px) {
+            body::before {
+                display: none;
+            }
+
+            .nav {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            .nav-toggle {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 280px;
+                background: var(--cream);
+                flex-direction: column;
+                padding: 80px 28px 28px;
+                gap: 6px;
+                box-shadow: -8px 0 40px rgba(0, 0, 0, .12);
+                transform: translateX(100%);
+                transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+                z-index: 550;
+                align-items: stretch;
+            }
+
+            .nav-links.open {
+                transform: translateX(0)
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                padding: 12px 16px;
+            }
+
+            .nav-links .cta {
+                text-align: center;
+                margin-top: 8px;
+            }
+
+            .nav-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, .3);
+                z-index: 540;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity .3s;
+            }
+
+            .nav-overlay.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .hero {
+                padding: 60px 24px 50px
+            }
+
+            .hero-kicker {
+                justify-content: center;
+            }
+
+            .feat-grid {
+                grid-template-columns: 1fr
+            }
+
+            .trust-inner {
+                flex-direction: column
+            }
+
+            .trust-item {
+                border-right: none;
+                border-bottom: 1px solid var(--cream-dark)
+            }
+
+            .trust-item:last-child {
+                border-bottom: none
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 32px
+            }
+
+            .mockup-float-2 {
+                left: -10px
+            }
+
+            .mockup-float-1 {
+                right: -8px
+            }
+
+            .social-divider {
+                display: none
+            }
+
+            .social-strip {
+                gap: 20px
+            }
+        }
+        /* ── Reduced-motion ── */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                transition-delay: 0ms !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+            .mockup-bar-fill { transition: none; }
         }
     </style>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2WJ45BS7VF"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-2WJ45BS7VF');</script>
+    <link rel="canonical" href="https://atsscoreboard.me/" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ATSScoreboard",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Chrome",
+      "offers": [
+        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Starter" },
+        { "@type": "Offer", "price": "9", "priceCurrency": "USD", "name": "Pro" },
+        { "@type": "Offer", "price": "19", "priceCurrency": "USD", "name": "Elite" }
+      ],
+      "description": "Score your resume against any job description. AI-powered coaching, keyword tailoring, and ATS optimization. Free Chrome extension.",
+      "url": "https://atsscoreboard.me/",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "2400"
+      }
+    }
+    </script>
 </head>
 
 <body>
 
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div id="progress-bar"></div>
+
     <!-- Nav -->
-    <nav class="nav">
+    <nav class="nav" id="nav">
         <div class="nav-inner">
             <a href="/" class="nav-brand">
-                <div class="nav-logo">⚡</div>
+                <div class="nav-logo"><img src="/assets/ats-logo.svg" alt="ATSScoreboard logo"></div>
                 <span class="nav-name">ATSScoreboard</span>
             </a>
-            <div class="nav-links">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-links" id="nav-links">
                 <a href="/pricing.html">Pricing</a>
                 <a href="/support.html">Support</a>
                 <a href="/privacy.html">Privacy</a>
+                <a href="/terms.html">Terms</a>
                 <a class="cta"
                     href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
-                    target="_blank">Install Free</a>
+                    target="_blank" rel="noopener noreferrer">Install Free</a>
             </div>
+            <div class="nav-overlay" id="nav-overlay"></div>
         </div>
     </nav>
 
+    <main id="main">
+
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-badge"><span class="dot"></span> v2.2 — Now with AI Coach & Tailor Wizard</div>
-        <h1>Score your resume.<br>Land the <em>interview</em>.</h1>
-        <p>ATSScoreboard reads the job description from any tab, compares it to your resume, and tells you exactly what
-            to fix — missing keywords, weak bullets, structural gaps. Free forever.</p>
-        <div class="hero-actions">
-            <a class="btn btn-primary"
-                href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
-                target="_blank">⚡ Install Chrome Extension</a>
-            <a class="btn btn-secondary" href="/pricing.html">See Plans</a>
+        <div class="hero-bg">
+            <div class="hero-orb hero-orb-1" id="orb1"></div>
+            <div class="hero-orb hero-orb-2" id="orb2"></div>
+            <div class="hero-orb hero-orb-3" id="orb3"></div>
         </div>
-        <p class="hero-note">Free plan includes scoring, keywords, parse preview, and history. No credit card required.
-        </p>
+        <div class="hero-inner">
+            <div class="hero-shell">
+                <div class="hero-copy">
+                    <div class="hero-kicker"><span class="hero-kicker-line"></span> Resume checker for serious job seekers</div>
+            <div class="hero-badge"><span class="dot"></span> v2.2 - Tailor Wizard, Company Intel, Multi-Resume Profiles</div>
+            <h1>Score your resume.<br>Fix the gaps.<br>Win the <em>interview</em>.</h1>
+            <p class="hero-sub">ATSScoreboard checks the resume you already have against the job you actually want. See the missing keywords, culture-fit signals, weak bullets, and ATS parsing issues in one pass.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary"
+                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
+                    target="_blank" rel="noopener noreferrer">Install Chrome Extension</a>
+                <a class="btn btn-secondary" href="/pricing.html">See Plans</a>
+            </div>
+            <p class="hero-note">Free forever for scoring, keyword analysis, parse preview, and job-by-job history.</p>
+
+                </div>
+
+            <!-- Live mockup -->
+            <div class="hero-mockup-wrap">
+                <div class="mockup-float mockup-float-1">+3 new keywords found</div>
+                <div class="mockup-float mockup-float-2">AI Coach ready</div>
+                <div class="hero-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-icon"><img src="/assets/ats-logo.svg" alt="ATSScoreboard logo"></div>
+                        <div>
+                            <div class="mockup-title">ATSScoreboard Analysis</div>
+                            <div class="mockup-sub">Senior Product Manager - Shopify</div>
+                        </div>
+                    </div>
+                    <div class="mockup-score-row">
+                        <div class="mockup-score-item">
+                            <div class="mockup-score-label">Overall</div>
+                            <div class="mockup-score-val" id="score-overall">--</div>
+                        </div>
+                        <div class="mockup-score-item">
+                            <div class="mockup-score-label">Keywords</div>
+                            <div class="mockup-score-val good" id="score-kw">--</div>
+                        </div>
+                        <div class="mockup-score-item">
+                            <div class="mockup-score-label">Structure</div>
+                            <div class="mockup-score-val warn" id="score-st">--</div>
+                        </div>
+                    </div>
+                    <div class="mockup-bar-row">
+                        <div class="mockup-bar-label"><span>Parseability</span><span>92%</span></div>
+                        <div class="mockup-bar-track">
+                            <div class="mockup-bar-fill" id="bar1" style="width:0%"></div>
+                        </div>
+                    </div>
+                    <div class="mockup-bar-row">
+                        <div class="mockup-bar-label"><span>Keyword Match</span><span>74%</span></div>
+                        <div class="mockup-bar-track">
+                            <div class="mockup-bar-fill bronze" id="bar2" style="width:0%"></div>
+                        </div>
+                    </div>
+                    <div class="mockup-bar-row" style="margin-bottom:14px">
+                        <div class="mockup-bar-label"><span>Structure</span><span>88%</span></div>
+                        <div class="mockup-bar-track">
+                            <div class="mockup-bar-fill" id="bar3" style="width:0%"></div>
+                        </div>
+                    </div>
+                    <div class="mockup-keywords">
+                        <span class="mockup-keyword found">Agile</span>
+                        <span class="mockup-keyword found">Roadmap</span>
+                        <span class="mockup-keyword found">SQL</span>
+                        <span class="mockup-keyword miss">GTM</span>
+                        <span class="mockup-keyword miss">OKRs</span>
+                        <span class="mockup-keyword found">A/B Testing</span>
+                        <span class="mockup-keyword miss">Figma</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-proof-grid">
+                <article class="hero-proof-card">
+                    <div class="hero-proof-label">Guided Tailor Wizard</div>
+                    <strong>Turn missing keywords into ready-to-paste resume bullets.</strong>
+                    <p>Walk through each gap with templates that adapt to your skill type instead of generic filler.</p>
+                </article>
+                <article class="hero-proof-card">
+                    <div class="hero-proof-label">Company Culture Intel</div>
+                    <strong>Read what the employer values before you rewrite.</strong>
+                    <p>Detect autonomy, collaboration, innovation, and other signals straight from the posting.</p>
+                </article>
+                <article class="hero-proof-card">
+                    <div class="hero-proof-label">Multi-Resume Profiles</div>
+                    <strong>Keep several polished resume versions ready to switch.</strong>
+                    <p>Save up to 8 targeted profiles and compare which one gives you the strongest match.</p>
+                </article>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Social proof -->
+    <section class="social-proof">
+        <div class="social-strip reveal">
+            <div class="social-stat">
+                <div class="social-stat-num" id="stat-users">2,400+</div>
+                <div class="social-stat-label">Chrome users</div>
+            </div>
+            <div class="social-divider"></div>
+            <div class="social-stat">
+                <div class="social-stat-num">50,000+</div>
+                <div class="social-stat-label">Resumes scored</div>
+            </div>
+            <div class="social-divider"></div>
+            <div class="social-stat">
+                <div class="social-stat-num">494</div>
+                <div class="social-stat-label">Skills tracked</div>
+            </div>
+            <div class="social-divider"></div>
+            <div class="social-stat">
+                <div class="social-stat-num">4.8 ★</div>
+                <div class="social-stat-label">Avg rating</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <hr class="section-divider" aria-hidden="true">
+    <section class="how">
+        <div class="section-wrap">
+            <div class="section-label reveal">
+                <div class="section-eyebrow">How it works</div>
+                <h2>From install to insights in 30 seconds</h2>
+                <p>No accounts. No uploads. No setup. Just open any job posting and analyze.</p>
+            </div>
+            <div class="steps">
+                <div class="step reveal reveal-delay-1">
+                    <div class="step-num">1</div>
+                    <h3>Install free</h3>
+                    <p>Add ATSScoreboard to Chrome in one click. No signup, no credit card, no friction.</p>
+                </div>
+                <div class="step reveal reveal-delay-2">
+                    <div class="step-num">2</div>
+                    <h3>Open a job posting</h3>
+                    <p>Navigate to any job on LinkedIn, Indeed, Greenhouse, Lever, or any other site.</p>
+                </div>
+                <div class="step reveal reveal-delay-3">
+                    <div class="step-num">3</div>
+                    <h3>Upload your resume</h3>
+                    <p>Paste your resume text or upload a PDF/DOCX right inside the extension panel.</p>
+                </div>
+                <div class="step reveal reveal-delay-4">
+                    <div class="step-num">4</div>
+                    <h3>Get your score</h3>
+                    <p>Instant ATS match score, keyword gaps, parse preview, and AI coaching suggestions.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Features -->
     <section class="features">
-        <div class="section-label">
-            <h2>Everything you need to beat the ATS</h2>
-            <p>Upload or paste your resume, open any job posting, and get instant, actionable feedback.</p>
-        </div>
-        <div class="feat-grid">
-            <div class="feat-card">
-                <div class="feat-icon teal">📊</div>
-                <h3>ATS Match Score</h3>
-                <p>Three-part breakdown — parseability, keyword match, and structure — so you know exactly where your
-                    resume falls short.</p>
+        <div class="section-wrap">
+            <div class="section-label reveal">
+                <div class="section-eyebrow">Features</div>
+                <h2>Everything you need to beat the ATS</h2>
+                <p>Upload or paste your resume, open any job posting, and get instant, actionable feedback.</p>
             </div>
-            <div class="feat-card">
-                <div class="feat-icon bronze">🔑</div>
-                <h3>Keyword Analysis</h3>
-                <p>See every missing and matched keyword, split by required vs. preferred. Covers 494 skills across
-                    tech, business, and design.</p>
-            </div>
-            <div class="feat-card">
-                <div class="feat-icon green">📋</div>
-                <h3>Parse Preview</h3>
-                <p>See what the ATS actually reads — section order, contact extraction, heading detection, and format
-                    risk warnings.</p>
-            </div>
-            <div class="feat-card">
-                <div class="feat-icon teal">🎯</div>
-                <h3>Tailor Wizard<span class="badge-pro">PRO</span></h3>
-                <p>Walk through each missing keyword one by one. Get skill-type-aware bullet templates you can copy and
-                    paste directly.</p>
-            </div>
-            <div class="feat-card">
-                <div class="feat-icon bronze">🤖</div>
-                <h3>AI Coach<span class="badge-pro">PRO</span></h3>
-                <p>Get a score verdict, rewritten resume bullets, and keyword suggestions powered by Claude. Honest —
-                    won't fabricate skills you don't have.</p>
-            </div>
-            <div class="feat-card">
-                <div class="feat-icon green">🏢</div>
-                <h3>Company Intel<span class="badge-pro">ELITE</span></h3>
-                <p>Auto-detects the company, role, and culture signals from the job posting. Get resume tips matched to
-                    each company's values.</p>
+            <div class="feat-grid">
+                <div class="feat-card reveal reveal-delay-1">
+                    <div class="feat-icon teal">📊</div>
+                    <h3>ATS Match Score</h3>
+                    <p>Three-part breakdown — parseability, keyword match, and structure — so you know exactly where
+                        your resume falls short.</p>
+                </div>
+                <div class="feat-card reveal reveal-delay-2">
+                    <div class="feat-icon bronze">🔑</div>
+                    <h3>Keyword Analysis</h3>
+                    <p>See every missing and matched keyword, split by required vs. preferred. Covers 494 skills across
+                        tech, business, and design.</p>
+                </div>
+                <div class="feat-card reveal reveal-delay-3">
+                    <div class="feat-icon green">📋</div>
+                    <h3>Parse Preview</h3>
+                    <p>See what the ATS actually reads — section order, contact extraction, heading detection, and
+                        format risk warnings.</p>
+                </div>
+                <div class="feat-card reveal reveal-delay-1">
+                    <div class="feat-icon teal">🎯</div>
+                    <h3>Tailor Wizard <span class="badge-pro">PRO</span></h3>
+                    <p>Walk through each missing keyword one by one. Get skill-type-aware bullet templates you can copy
+                        and paste directly.</p>
+                </div>
+                <div class="feat-card reveal reveal-delay-2">
+                    <div class="feat-icon bronze">🤖</div>
+                    <h3>AI Coach <span class="badge-pro">PRO</span></h3>
+                    <p>Get a score verdict, rewritten resume bullets, and keyword suggestions powered by Claude. Honest
+                        — won't fabricate skills you don't have.</p>
+                </div>
+                <div class="feat-card reveal reveal-delay-3">
+                    <div class="feat-icon green">🏢</div>
+                    <h3>Company Intel <span class="badge-pro">ELITE</span></h3>
+                    <p>Auto-detects the company, role, and culture signals from the job posting. Get resume tips matched
+                        to each company's values.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Preview -->
-    <section class="pricing-preview">
-        <div class="section-label">
-            <h2>Simple, honest pricing</h2>
-            <p>Scoring is free forever. Upgrade only when you want AI-powered coaching.</p>
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="section-wrap">
+            <div class="section-label reveal">
+                <div class="section-eyebrow">What people say</div>
+                <h2>Trusted by job seekers worldwide</h2>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">I used ATSScoreboard for every application in my job search. The keyword
+                        gap analysis alone saved me hours of guessing what recruiters were looking for.</p>
+                    <div class="testimonial-author">Priya S.</div>
+                    <div class="testimonial-role">Software Engineer · Toronto</div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">The AI Coach is worth every penny. It rewrote my experience bullets in a
+                        way I never would have thought of — and I started getting callbacks within a week.</p>
+                    <div class="testimonial-author">Marcus T.</div>
+                    <div class="testimonial-role">Product Manager · Austin</div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-3">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">Finally a tool that's actually honest. It told me my resume was missing
+                        half the required skills — hard to hear, but exactly what I needed to fix it.</p>
+                    <div class="testimonial-author">Jenna K.</div>
+                    <div class="testimonial-role">UX Designer · London</div>
+                </div>
+            </div>
         </div>
-        <div class="price-row">
-            <div class="price-card">
-                <h3>Starter</h3>
-                <div class="price-amount">Free</div>
-                <div class="price-sub">No card required</div>
-                <ul class="price-features">
-                    <li><span class="check">✓</span> ATS score & keywords</li>
-                    <li><span class="check">✓</span> Parse preview</li>
-                    <li><span class="check">✓</span> 3 history entries per JD</li>
-                    <li><span class="check">✓</span> 1 saved resume</li>
-                    <li><span class="cross">—</span> AI Coach</li>
-                    <li><span class="cross">—</span> Tailor wizard</li>
-                </ul>
-                <span class="price-cta current">Current plan</span>
+    </section>
+
+    <!-- Pricing preview -->
+    <section class="pricing-preview"
+        style="background:linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%)">
+        <div class="section-wrap">
+            <div class="section-label reveal">
+                <div class="section-eyebrow">Pricing</div>
+                <h2>Simple, honest pricing</h2>
+                <p>Scoring is free forever. Upgrade only when you want AI-powered coaching.</p>
             </div>
-            <div class="price-card popular">
-                <div class="price-popular-tag">Most Popular</div>
-                <h3>Pro</h3>
-                <div class="price-amount">$9<span>/mo</span></div>
-                <div class="price-sub">Land more interviews</div>
-                <ul class="price-features">
-                    <li><span class="check">✓</span> Everything in Starter</li>
-                    <li><span class="check">✓</span> AI Coach (bullet rewrites)</li>
-                    <li><span class="check">✓</span> Tailor wizard</li>
-                    <li><span class="check">✓</span> Unlimited history</li>
-                    <li><span class="check">✓</span> 4 saved resumes</li>
-                    <li><span class="check">✓</span> Export reports</li>
-                </ul>
-                <a class="price-cta upgrade"
-                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
-                    target="_blank">Get Pro</a>
+            <div class="price-row">
+                <div class="price-card reveal reveal-delay-1">
+                    <h3>Starter</h3>
+                    <div class="price-amount">Free</div>
+                    <div class="price-sub">No card required</div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> ATS score &amp; keywords</li>
+                        <li><span class="check">✓</span> Parse preview</li>
+                        <li><span class="check">✓</span> 3 history entries per JD</li>
+                        <li><span class="check">✓</span> 1 saved resume</li>
+                        <li><span class="cross">—</span> AI Coach</li>
+                        <li><span class="cross">—</span> Tailor wizard</li>
+                    </ul>
+                    <span class="price-cta current">Current plan</span>
+                </div>
+                <div class="price-card popular reveal reveal-delay-2">
+                    <div class="price-popular-tag">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price-amount">$9<span>/mo</span></div>
+                    <div class="price-sub">Land more interviews</div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Everything in Starter</li>
+                        <li><span class="check">✓</span> AI Coach (bullet rewrites)</li>
+                        <li><span class="check">✓</span> Tailor wizard</li>
+                        <li><span class="check">✓</span> Unlimited history</li>
+                        <li><span class="check">✓</span> 4 saved resumes</li>
+                        <li><span class="check">✓</span> Export reports</li>
+                    </ul>
+                    <a class="price-cta upgrade"
+                        href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
+                        target="_blank" rel="noopener noreferrer">Get Pro</a>
+                </div>
+                <div class="price-card reveal reveal-delay-3">
+                    <h3>Elite</h3>
+                    <div class="price-amount">$19<span>/mo</span></div>
+                    <div class="price-sub">Unfair advantage</div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Everything in Pro</li>
+                        <li><span class="check">✓</span> Company culture intel</li>
+                        <li><span class="check">✓</span> Priority AI (Sonnet)</li>
+                        <li><span class="check">✓</span> 8 saved resumes</li>
+                        <li><span class="check">✓</span> Priority support</li>
+                    </ul>
+                    <a class="price-cta upgrade"
+                        href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
+                        target="_blank" rel="noopener noreferrer">Get Elite</a>
+                </div>
             </div>
-            <div class="price-card">
-                <h3>Elite</h3>
-                <div class="price-amount">$19<span>/mo</span></div>
-                <div class="price-sub">Unfair advantage</div>
-                <ul class="price-features">
-                    <li><span class="check">✓</span> Everything in Pro</li>
-                    <li><span class="check">✓</span> Company culture intel</li>
-                    <li><span class="check">✓</span> Priority AI (Sonnet)</li>
-                    <li><span class="check">✓</span> 8 saved resumes</li>
-                    <li><span class="check">✓</span> Priority support</li>
-                </ul>
-                <a class="price-cta upgrade"
-                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
-                    target="_blank">Get Elite</a>
+            <div style="text-align:center; margin-top:20px">
+                <a href="/pricing.html"
+                    style="font-size:14px; color:var(--teal-700); font-weight:600; text-decoration:none;">View full
+                    comparison →</a>
             </div>
         </div>
     </section>
 
     <!-- Trust -->
     <section class="trust">
-        <div class="trust-items">
-            <div class="trust-item">🔒 <strong>Privacy first</strong> — data processed transiently</div>
-            <div class="trust-item">💳 <strong>Stripe</strong> — secure payment processing</div>
-            <div class="trust-item">🚫 <strong>Not affiliated</strong> with any employer or job board</div>
+        <div class="section-wrap">
+            <div class="trust-inner reveal">
+                <div class="trust-item">
+                    <div class="trust-icon">🔒</div>
+                    <div><strong>Privacy first</strong><br><span>Data processed transiently, never stored</span></div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">💳</div>
+                    <div><strong>Secure payments</strong><br><span>All billing through Stripe</span></div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">🚫</div>
+                    <div><strong>Independent</strong><br><span>Not affiliated with any employer or ATS</span></div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">⚡</div>
+                    <div><strong>Instant results</strong><br><span>Analysis in under 3 seconds</span></div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="final-cta-bg"></div>
+        <div class="final-cta-inner reveal">
+            <h2>Ready to beat the ATS?</h2>
+            <p>Join thousands of job seekers who stopped guessing and started scoring. Install in one click — it's free.
+            </p>
+            <a class="btn btn-primary"
+                href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
+                target="_blank" rel="noopener noreferrer">Install ATSScoreboard - Free</a>
+        </div>
+    </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-inner">
             <div>
-                <div style="font-family:var(--font-display);font-size:18px;color:#fff;margin-bottom:6px">ATSScoreboard
-                </div>
-                <div class="footer-copy">© <span id="y"></span> ATSScoreboard. All rights reserved.</div>
+                <div class="footer-brand"><span class="footer-brand-mark"><img src="/assets/ats-logo.svg" alt="ATSScoreboard logo"></span><span>ATSScoreboard</span></div>
+                <div class="footer-desc">The fastest way to score, fix, and tailor your resume for any job description.
+                    Free forever to use, upgrade when you need AI coaching.</div>
             </div>
-            <div class="footer-links">
+            <div class="footer-col">
+                <h4>Links</h4>
                 <a href="/pricing.html">Pricing</a>
                 <a href="/support.html">Support</a>
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
+                    target="_blank" rel="noopener noreferrer">Chrome Web Store ↗</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">© <span id="y"></span> ATSScoreboard. All rights reserved.</span>
+            <div class="footer-links">
                 <a href="/privacy.html">Privacy</a>
                 <a href="/terms.html">Terms</a>
+                <a href="/support.html">Support</a>
             </div>
         </div>
     </footer>
 
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+        // Year
+        document.getElementById('y').textContent = new Date().getFullYear();
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Scroll progress + nav shadow
+        const bar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.width = (window.scrollY / max * 100) + '%';
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+        }, { passive: true });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        if (prefersReducedMotion) {
+            reveals.forEach(r => r.classList.add('visible'));
+        } else {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+            }, { threshold: 0.12 });
+            reveals.forEach(r => io.observe(r));
+        }
+
+        // Mockup counter animation
+        const mockup = document.querySelector('.hero-mockup');
+        const mockupObs = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                if (prefersReducedMotion) {
+                    document.getElementById('score-overall').textContent = '84%';
+                    document.getElementById('score-kw').textContent = '74%';
+                    document.getElementById('score-st').textContent = '88%';
+                    document.getElementById('bar1').style.width = '92%';
+                    document.getElementById('bar2').style.width = '74%';
+                    document.getElementById('bar3').style.width = '88%';
+                } else {
+                    setTimeout(() => {
+                        animateCounter('score-overall', 84, '%');
+                        animateCounter('score-kw', 74, '%');
+                        animateCounter('score-st', 88, '%');
+                        setTimeout(() => { document.getElementById('bar1').style.width = '92%'; }, 100);
+                        setTimeout(() => { document.getElementById('bar2').style.width = '74%'; }, 300);
+                        setTimeout(() => { document.getElementById('bar3').style.width = '88%'; }, 500);
+                    }, 600);
+                }
+                mockupObs.disconnect();
+            }
+        }, { threshold: 0.5 });
+        mockupObs.observe(mockup);
+
+        function animateCounter(id, target, suffix) {
+            const el = document.getElementById(id);
+            const duration = 1200;
+            const start = performance.now();
+            const tick = (now) => {
+                const t = Math.min((now - start) / duration, 1);
+                const val = Math.round(easeOut(t) * target);
+                el.textContent = val + suffix;
+                if (t < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        }
+        function easeOut(t) { return 1 - Math.pow(1 - t, 3) }
+
+        // Hero parallax orbs — skip for users who prefer reduced motion
+        if (!prefersReducedMotion) {
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const y = window.scrollY;
+                        const o1 = document.getElementById('orb1');
+                        const o2 = document.getElementById('orb2');
+                        const o3 = document.getElementById('orb3');
+                        if (o1) o1.style.transform = `translateX(-50%) translateY(${y * 0.08}px)`;
+                        if (o2) o2.style.transform = `translateY(${y * -0.05}px)`;
+                        if (o3) o3.style.transform = `translateY(${y * 0.06}px)`;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
+
+        // Mobile menu toggle
+        const toggle = document.getElementById('nav-toggle');
+        const links = document.getElementById('nav-links');
+        const overlay = document.getElementById('nav-overlay');
+        toggle.addEventListener('click', () => {
+            const open = links.classList.toggle('open');
+            overlay.classList.toggle('open', open);
+            toggle.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', open);
+            document.body.style.overflow = open ? 'hidden' : '';
+        });
+        overlay.addEventListener('click', () => {
+            links.classList.remove('open');
+            overlay.classList.remove('open');
+            toggle.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+    </script>
 </body>
 
 </html>

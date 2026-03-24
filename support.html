@@ -4,67 +4,113 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Support — ATSScoreboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&display=swap"
-        rel="stylesheet" />
+    <title>Support - ATSScoreboard</title>
+    <meta name="description" content="Get help with ATSScoreboard. Troubleshoot the extension, fix billing issues, and contact support." />
+    <meta property="og:title" content="Support - ATSScoreboard" />
+    <meta property="og:description" content="Get help with ATSScoreboard. Troubleshoot the extension, fix billing issues, and contact support." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://atsscoreboard.me/support.html" />
+    <meta name="theme-color" content="#12333a" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/ats-logo.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://atsscoreboard.me/support.html" />
     <style>
-        * {
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box
         }
 
         :root {
-            --cream: #faf6ef;
-            --cream-dark: #f0e9da;
-            --cream-deep: #e6dcc8;
-            --teal-900: #0d3b42;
-            --teal-700: #1a5c66;
-            --teal-500: #2a8090;
-            --teal-100: #d5eef2;
-            --bronze-700: #7a4f22;
-            --bronze-500: #9a6b35;
-            --bronze-200: #dfbf8e;
             --text: #1c2230;
             --text-2: #3d4555;
             --muted: #6b7280;
-            --font-display: 'DM Serif Display', Georgia, serif;
-            --font-body: 'Source Sans 3', system-ui, sans-serif;
-            --r-lg: 24px;
-            --shadow: 0 8px 32px rgba(28, 34, 48, .08)
+            --ink-soft: #55606d;
+            --teal: #165d68;
+            --teal-soft: #deeff1;
+            --gold: #f0b35f;
+            --cream: #faf6ef;
+            --teal-900: #0d3b42;
+            --teal-700: #1a5c66;
+            --teal-500: #2a8090;
+            --line: rgba(18, 51, 58, .10);
+            --shadow: 0 14px 40px rgba(18, 51, 58, .08);
+            --shadow-lg: 0 28px 80px rgba(18, 51, 58, .14);
+            --radius: 20px;
+            --radius-lg: 30px;
+            --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+            --font-body: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
         html {
-            scroll-behavior: smooth
+            color-scheme: light;
         }
 
         body {
+            min-height: 100vh;
             font-family: var(--font-body);
             color: var(--text);
-            background: var(--cream);
-            -webkit-font-smoothing: antialiased
+            background:
+                radial-gradient(circle at top, rgba(22, 93, 104, .10), transparent 36%),
+                linear-gradient(180deg, #fbf6ec 0%, #f4ecdc 100%);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .62), transparent 24%),
+                linear-gradient(130deg, rgba(255, 255, 255, .34), transparent 42%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            z-index: 1000;
+            padding: 10px 16px;
+            border-radius: 0 0 10px 10px;
+            color: #fff;
+            background: var(--teal-700);
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 0;
         }
 
         .nav {
             position: sticky;
             top: 0;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: rgba(250, 246, 239, .85);
-            border-bottom: 1px solid rgba(26, 92, 102, .08)
+            z-index: 500;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            background: rgba(250, 246, 239, .88);
+            border-bottom: 1px solid rgba(26, 92, 102, .07);
         }
 
         .nav-inner {
             max-width: 1080px;
             margin: 0 auto;
-            padding: 14px 24px;
+            padding: 13px 24px;
             display: flex;
             align-items: center;
-            justify-content: space-between
+            justify-content: space-between;
         }
 
         .nav-brand {
@@ -72,249 +118,827 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--text)
+            color: var(--text);
         }
 
         .nav-logo {
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: linear-gradient(135deg, var(--teal-700), var(--bronze-500));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #fff
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(26, 92, 102, .3);
+            flex-shrink: 0;
+            background: center / cover no-repeat url('/assets/ats-logo.svg');
+            color: transparent;
+            font-size: 0;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .nav-name {
             font-family: var(--font-display);
-            font-size: 18px
+            font-size: 19px;
+            color: var(--text);
+            letter-spacing: .2px;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            position: relative;
+            z-index: 600;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            margin: 5px auto;
+            border-radius: 2px;
+            transition: all .3s;
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
         }
 
         .nav-links {
             display: flex;
-            gap: 8px;
-            align-items: center
+            gap: 4px;
+            align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--text-2);
-            font-size: 14px;
-            font-weight: 600;
             padding: 7px 14px;
             border-radius: 10px;
-            transition: all .2s
+            font-size: 14px;
+            font-weight: 600;
+            transition: all .2s;
         }
 
-        .nav-links a:hover {
-            background: rgba(26, 92, 102, .06);
-            color: var(--teal-700)
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(26, 92, 102, .07);
+            color: var(--teal-700);
         }
 
         .nav-links .cta {
-            background: var(--teal-700);
             color: #fff;
-            font-weight: 700
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+            box-shadow: 0 2px 10px rgba(26, 92, 102, .25);
         }
 
         .nav-links .cta:hover {
-            background: var(--teal-900)
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(26, 92, 102, .3);
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+            color: #fff;
         }
 
-        .page-wrap {
-            max-width: 800px;
+        .nav-overlay {
+            display: none;
+        }
+
+        .support-shell {
+            position: relative;
+            z-index: 1;
+            max-width: 1160px;
             margin: 0 auto;
-            padding: 50px 24px 60px
+            padding: 24px 16px 72px;
         }
 
-        .page-title {
-            font-family: var(--font-display);
-            font-size: clamp(32px, 4vw, 44px);
-            color: var(--teal-900);
-            margin-bottom: 8px
+        .support-hero,
+        .support-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
         }
 
-        .page-sub {
-            font-size: 17px;
-            color: var(--muted);
-            margin-bottom: 32px;
-            line-height: 1.6
-        }
-
-        .card {
-            background: rgba(255, 255, 255, .7);
-            border: 1px solid rgba(26, 92, 102, .08);
-            border-radius: var(--r-lg);
-            padding: 32px 28px;
+        .hero-panel,
+        .contact-panel,
+        .support-card {
+            border: 1px solid var(--line);
+            border-radius: 26px;
             box-shadow: var(--shadow);
-            margin-bottom: 16px
         }
 
-        .card h2 {
+        .hero-panel {
+            padding: 28px 22px 24px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, .80), rgba(255, 252, 247, .72)),
+                radial-gradient(circle at top right, rgba(22, 93, 104, .08), transparent 35%);
+        }
+
+        .support-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(22, 93, 104, .08);
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .support-kicker::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #1b7784, var(--gold));
+        }
+
+        .hero-panel h1 {
+            margin-bottom: 16px;
             font-family: var(--font-display);
-            font-size: 20px;
-            color: var(--teal-900);
-            margin: 0 0 12px
+            font-size: clamp(40px, 12vw, 64px);
+            line-height: .94;
+            letter-spacing: -.05em;
+            color: var(--navy);
         }
 
-        .card p,
-        .card li {
+        .hero-panel p {
+            max-width: 620px;
+            color: var(--ink-soft);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .hero-points {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .hero-point {
+            padding: 15px 16px;
+            border: 1px solid rgba(18, 51, 58, .08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .72);
+        }
+
+        .hero-point strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .hero-point span {
+            display: block;
+            color: var(--ink-soft);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .contact-panel {
+            padding: 24px 20px;
+            background: linear-gradient(180deg, rgba(18, 51, 58, .98), rgba(20, 70, 79, .95));
+            color: rgba(255, 255, 255, .88);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-eyebrow {
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, .58);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .contact-panel h2 {
+            margin-bottom: 12px;
+            font-family: var(--font-display);
+            font-size: clamp(28px, 8vw, 40px);
+            line-height: 1;
+            color: #fff;
+        }
+
+        .contact-panel p {
+            color: rgba(255, 255, 255, .72);
+            line-height: 1.7;
             font-size: 15px;
-            color: var(--text-2);
-            line-height: 1.7
         }
 
-        .card ul {
-            margin: 8px 0 0 18px
+        .contact-meta {
+            display: grid;
+            gap: 12px;
+            margin: 16px 0 18px;
         }
 
-        .card li {
-            margin: 6px 0
+        .contact-meta-item {
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .08);
         }
 
-        .card a {
-            color: var(--teal-700)
+        .contact-meta-item strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .contact-meta-item span {
+            display: block;
+            color: rgba(255, 255, 255, .68);
+            font-size: 13px;
+            line-height: 1.55;
         }
 
         .email-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 13px 26px;
-            border-radius: 14px;
-            font-family: var(--font-body);
+            justify-content: center;
+            min-height: 56px;
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            color: var(--navy);
+            background: linear-gradient(135deg, #f7d299, var(--gold));
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
-            /* background: linear-gradient(135deg, var(--teal-700), var(--teal-900)); */
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(26, 92, 102, .25);
-            transition: all .25s;
-            margin-top: 8px
+            box-shadow: 0 16px 32px rgba(0, 0, 0, .18);
+            transition: transform .2s ease, box-shadow .2s ease;
         }
 
         .email-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(26, 92, 102, .3)
+            box-shadow: 0 22px 40px rgba(0, 0, 0, .22);
         }
 
-        .footer {
-            background: var(--teal-900);
-            color: rgba(255, 255, 255, .7);
-            padding: 40px 24px;
-            margin-top: 40px
+        .support-card {
+            padding: 24px 20px;
+            background: rgba(255, 252, 247, .80);
         }
 
-        .footer-inner {
-            max-width: 1080px;
-            margin: 0 auto;
+        .faq-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .faq-index {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            background: var(--navy);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .faq-heading h3 {
+            color: var(--teal);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .support-card h2 {
+            margin-bottom: 10px;
+            font-family: var(--font-display);
+            font-size: clamp(28px, 7vw, 36px);
+            color: var(--navy);
+        }
+
+        .card-intro {
+            margin-bottom: 18px;
+            color: var(--ink-soft);
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        .faq-list,
+        .quick-links {
+            display: grid;
+            gap: 12px;
+        }
+
+        .fix-item {
+            border: 1px solid rgba(18, 51, 58, .08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .74);
+            padding: 0 18px;
+        }
+
+        .fix-q {
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 16px
+            gap: 14px;
+            padding: 18px 0;
+            border: 0;
+            background: none;
+            color: var(--navy);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
         }
 
-        .footer a {
-            color: rgba(255, 255, 255, .8);
+        .fix-arrow {
+            color: #7a848f;
+            font-size: 12px;
+            transition: transform .2s ease;
+            flex-shrink: 0;
+        }
+
+        .fix-item.open .fix-arrow {
+            transform: rotate(180deg);
+        }
+
+        .fix-a {
+            max-height: 0;
+            overflow: hidden;
+            color: var(--ink-soft);
+            font-size: 14px;
+            line-height: 1.7;
+            transition: max-height .25s ease, padding .25s ease;
+        }
+
+        .fix-item.open .fix-a {
+            max-height: 260px;
+            padding: 0 0 18px;
+        }
+
+        .quick-link {
+            display: block;
+            padding: 16px 18px;
+            border: 1px solid rgba(18, 51, 58, .08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .72);
+            color: var(--navy);
             text-decoration: none;
-            font-size: 14px
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
         }
 
-        .footer a:hover {
-            color: #fff
+        .quick-link:hover {
+            transform: translateY(-2px);
+            border-color: rgba(22, 93, 104, .18);
+            box-shadow: 0 18px 32px rgba(18, 51, 58, .08);
         }
 
-        .footer-links {
+        .quick-link strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        .quick-link span {
+            display: block;
+            color: var(--ink-soft);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .4s ease, transform .4s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: .08s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: .16s;
+        }
+
+        .footer {
+            position: relative;
+            z-index: 1;
+            background: var(--navy);
+            color: rgba(255, 255, 255, .72);
+            padding: 48px 20px 34px;
+        }
+
+        .footer-inner {
+            max-width: 1160px;
+            margin: 0 auto;
             display: flex;
-            gap: 20px
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: 22px;
+        }
+
+        .footer-brand::before {
+            content: "";
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: center / cover no-repeat url('/assets/ats-logo.svg');
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .24);
         }
 
         .footer-copy {
             font-size: 13px;
-            opacity: .6
+            opacity: .7;
         }
 
-        @media(max-width:680px) {
-            .nav-links a:not(.cta) {
-                display: none
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 18px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, .84);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        @media (min-width: 681px) {
+            .support-shell {
+                padding: 44px 20px 88px;
+            }
+
+            .support-hero {
+                grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+                gap: 24px;
+            }
+
+            .support-grid {
+                grid-template-columns: minmax(0, 1.02fr) minmax(320px, .98fr);
+                gap: 24px;
+            }
+
+            .hero-panel {
+                padding: 42px 40px 36px;
+            }
+
+            .contact-panel,
+            .support-card {
+                padding: 30px;
+            }
+
+            .hero-points {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .email-btn {
+                width: auto;
             }
 
             .footer-inner {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body::before {
+                display: none;
+            }
+
+            .nav {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            .nav-toggle {
+                display: flex;
                 flex-direction: column;
-                text-align: center
+                justify-content: center;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 280px;
+                background: var(--cream);
+                flex-direction: column;
+                padding: 80px 28px 28px;
+                gap: 6px;
+                box-shadow: -8px 0 40px rgba(0, 0, 0, .12);
+                transform: translateX(100%);
+                transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+                z-index: 550;
+                align-items: stretch;
+            }
+
+            .nav-links.open {
+                transform: translateX(0);
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                padding: 12px 16px;
+            }
+
+            .nav-links .cta {
+                text-align: center;
+                margin-top: 8px;
+            }
+
+            .nav-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, .3);
+                z-index: 540;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity .3s;
+            }
+
+            .nav-overlay.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
             }
         }
     </style>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2WJ45BS7VF"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-2WJ45BS7VF');</script>
 </head>
 
 <body>
-    <nav class="nav">
-        <div class="nav-inner"><a href="/" class="nav-brand">
-                <div class="nav-logo">⚡</div><span class="nav-name">ATSScoreboard</span>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo"><img src="/assets/ats-logo.svg" alt="ATSScoreboard logo"></div><span class="nav-name">ATSScoreboard</span>
             </a>
-            <div class="nav-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
-                    href="/privacy.html">Privacy</a><a class="cta"
-                    href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
-                    target="_blank">Install Free</a></div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-links" id="nav-links">
+                <a href="/pricing.html">Pricing</a>
+                <a href="/support.html" class="active">Support</a>
+                <a href="/privacy.html">Privacy</a>
+                <a href="/terms.html">Terms</a>
+                <a class="cta" href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac" target="_blank" rel="noopener noreferrer">Install Free</a>
+            </div>
+            <div class="nav-overlay" id="nav-overlay"></div>
         </div>
     </nav>
 
-    <div class="page-wrap">
-        <h1 class="page-title">Support</h1>
-        <p class="page-sub">Need help with the extension, billing, or your analysis results? We're here.</p>
+    <main id="main">
+        <div class="support-shell">
+            <section class="support-hero">
+                <div class="hero-panel reveal">
+                    <div class="support-kicker">ATSScoreboard Support</div>
+                    <h1>Fast help.<br>Clear answers.</h1>
+                    <p>Get unstuck with billing, parsing, job description capture, and AI coaching. This support page is now structured mobile-first, with sharper contrast and direct paths to the answer you need.</p>
+                    <div class="hero-points">
+                        <div class="hero-point">
+                            <strong>Extension issues</strong>
+                            <span>Fix job detection, panel launch, parsing, and score-quality problems.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Billing help</strong>
+                            <span>Handle cancellations, card updates, and refund questions without guessing.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Direct support</strong>
+                            <span>Email us with screenshots and context so we can solve the real issue faster.</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="card">
-            <h2>Contact us</h2>
-            <p>Email us with your issue. Include screenshots if possible — it helps us resolve things faster.</p>
-            <a class="email-btn" href="mailto:bunnyparate7193@gmail.com">✉ bunnyparate7193@gmail.com</a>
-        </div>
+                <aside class="contact-panel reveal reveal-delay-1">
+                    <div class="contact-eyebrow">Contact</div>
+                    <h2>Reach a human.</h2>
+                    <p>Email is the fastest route for anything account-specific or anything that needs screenshots.</p>
+                    <div class="contact-meta">
+                        <div class="contact-meta-item">
+                            <strong>Best for</strong>
+                            <span>Billing questions, unexpected errors, and resume-analysis results that look wrong.</span>
+                        </div>
+                        <div class="contact-meta-item">
+                            <strong>Include this</strong>
+                            <span>The job board, the step that failed, and a screenshot if you have one.</span>
+                        </div>
+                    </div>
+                    <a class="email-btn" href="mailto:bunnyparate7193@gmail.com">Email bunnyparate7193@gmail.com</a>
+                </aside>
+            </section>
 
-        <div class="card">
-            <h2>Common fixes</h2>
-            <ul>
-                <li><strong>Analysis fails or shows an error</strong> — Reload the job posting page, then click Analyze
-                    again. If the backend is cold-starting (Heroku), wait 10 seconds and retry.</li>
-                <li><strong>JD not detected correctly</strong> — Highlight the correct job description text on the page
-                    before clicking Analyze. The extension will use your highlighted text instead.</li>
-                <li><strong>Side panel doesn't open</strong> — Click the ATSScoreboard icon in the Chrome toolbar. If
-                    you don't see it, click the puzzle piece icon and pin ATSScoreboard.</li>
-                <li><strong>Score seems too low</strong> — Check the Parse Preview tab. If the parser couldn't read your
-                    PDF properly, try pasting the text instead.</li>
-                <li><strong>AI Coach says "requires Pro"</strong> — You need an active Pro ($9/mo) or Elite ($19/mo)
-                    subscription. Click one of the plan buttons in the AI Coach tab to subscribe.</li>
-            </ul>
-        </div>
+            <section class="support-grid">
+                <div class="support-card reveal reveal-delay-1">
+                    <div class="faq-heading">
+                        <span class="faq-index">01</span>
+                        <h3>Common Fixes</h3>
+                    </div>
+                    <h2>Resolve extension issues fast.</h2>
+                    <p class="card-intro">Start here for the issues people hit most often inside ATSScoreboard.</p>
+                    <div class="faq-list">
+                        <div class="fix-item open">
+                            <button class="fix-q" aria-expanded="true">Analysis fails or shows an error <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Reload the job posting page, then click Analyze again. If the backend is cold-starting, wait a few seconds and retry once.</div>
+                        </div>
+                        <div class="fix-item">
+                            <button class="fix-q" aria-expanded="false">Job description is detected incorrectly <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Highlight the correct job description text before clicking Analyze. ATSScoreboard will use your highlighted selection instead of the full page.</div>
+                        </div>
+                        <div class="fix-item">
+                            <button class="fix-q" aria-expanded="false">The side panel does not open <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Click the ATSScoreboard icon in the Chrome toolbar. If you do not see it, open the extensions menu and pin ATSScoreboard first.</div>
+                        </div>
+                        <div class="fix-item">
+                            <button class="fix-q" aria-expanded="false">The score seems lower than expected <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Check the Parse Preview tab. If the parser had trouble reading the file, paste the resume text directly or upload a cleaner PDF export.</div>
+                        </div>
+                        <div class="fix-item">
+                            <button class="fix-q" aria-expanded="false">AI Coach says it requires Pro <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">AI coaching features require an active Pro or Elite subscription. You can upgrade directly from inside the AI Coach tab.</div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="card">
-            <h2>Billing & subscription</h2>
-            <ul>
-                <li><strong>Cancel your subscription</strong> — Open the extension → AI Coach tab → click "Manage" →
-                    this opens the Stripe Customer Portal where you can cancel.</li>
-                <li><strong>Update payment method</strong> — Same as above — the Stripe portal lets you update your
-                    card.</li>
-                <li><strong>Request a refund</strong> — Email us within 7 days of the charge. Include the email address
-                    you used at checkout.</li>
-            </ul>
+                <div class="support-card reveal reveal-delay-2">
+                    <div class="faq-heading">
+                        <span class="faq-index">02</span>
+                        <h3>Billing & Account</h3>
+                    </div>
+                    <h2>Manage your subscription cleanly.</h2>
+                    <p class="card-intro">Quick paths for subscription changes and payment issues.</p>
+                    <div class="faq-list">
+                        <div class="fix-item open">
+                            <button class="fix-q" aria-expanded="true">Cancel your subscription <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Open the extension, go to the AI Coach tab, click Manage, and use the Stripe Customer Portal to cancel. Access stays active until the end of the billing cycle.</div>
+                        </div>
+                        <div class="fix-item">
+                            <button class="fix-q" aria-expanded="false">Update your payment method <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Use the same Manage flow in the AI Coach tab. Stripe handles card changes and billing details securely.</div>
+                        </div>
+                        <div class="fix-item">
+                            <button class="fix-q" aria-expanded="false">Request a refund <span class="fix-arrow">▼</span></button>
+                            <div class="fix-a">Email support within 7 days of the charge and include the email address used during checkout so we can locate the payment quickly.</div>
+                        </div>
+                    </div>
+
+                    <div class="quick-links" style="margin-top:18px">
+                        <a class="quick-link" href="/pricing.html">
+                            <strong>Review plans and limits</strong>
+                            <span>See Starter, Pro, and Elite features before upgrading or troubleshooting access.</span>
+                        </a>
+                        <a class="quick-link" href="/privacy.html">
+                            <strong>Check privacy details</strong>
+                            <span>Understand how resume and job-description data are processed and discarded.</span>
+                        </a>
+                        <a class="quick-link" href="/terms.html">
+                            <strong>Read billing and refund terms</strong>
+                            <span>Confirm cancellation, refund timing, and account responsibilities.</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
 
     <footer class="footer">
         <div class="footer-inner">
             <div>
-                <div style="font-family:var(--font-display);font-size:18px;color:#fff;margin-bottom:6px">ATSScoreboard
-                </div>
+                <div class="footer-brand">ATSScoreboard</div>
                 <div class="footer-copy">© <span id="y"></span> ATSScoreboard. All rights reserved.</div>
             </div>
-            <div class="footer-links"><a href="/pricing.html">Pricing</a><a href="/support.html">Support</a><a
-                    href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+            <div class="footer-links">
+                <a href="/pricing.html">Pricing</a>
+                <a href="/support.html">Support</a>
+                <a href="/privacy.html">Privacy</a>
+                <a href="/terms.html">Terms</a>
+            </div>
         </div>
     </footer>
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+    <script>
+        document.getElementById('y').textContent = new Date().getFullYear();
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const reveals = document.querySelectorAll('.reveal');
+
+        if (prefersReducedMotion) {
+            reveals.forEach((node) => node.classList.add('visible'));
+        } else {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            reveals.forEach((node) => observer.observe(node));
+        }
+
+        document.querySelectorAll('.support-card').forEach((card) => {
+            card.querySelectorAll('.fix-q').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const item = button.parentElement;
+                    const wasOpen = item.classList.contains('open');
+
+                    card.querySelectorAll('.fix-item').forEach((node) => node.classList.remove('open'));
+                    card.querySelectorAll('.fix-q').forEach((node) => node.setAttribute('aria-expanded', 'false'));
+
+                    if (!wasOpen) {
+                        item.classList.add('open');
+                        button.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+        });
+
+        const toggle = document.getElementById('nav-toggle');
+        const links = document.getElementById('nav-links');
+        const overlay = document.getElementById('nav-overlay');
+
+        if (toggle && links && overlay) {
+            const closeMenu = () => {
+                links.classList.remove('open');
+                overlay.classList.remove('open');
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            };
+
+            toggle.addEventListener('click', () => {
+                const isOpen = links.classList.toggle('open');
+                overlay.classList.toggle('open', isOpen);
+                toggle.classList.toggle('open', isOpen);
+                toggle.setAttribute('aria-expanded', String(isOpen));
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            });
+
+            overlay.addEventListener('click', closeMenu);
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 820) {
+                    closeMenu();
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
