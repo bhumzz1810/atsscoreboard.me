@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>ATSScoreboard — Resume Checker Chrome Extension</title>
     <meta name="description"
-        content="Score your resume against any job description. AI-powered coaching, keyword tailoring, and ATS optimization. Free Chrome extension." />
+        content="Score your resume against the live job post, review the extracted JD, and see exact vs. semantic match evidence before you apply." />
     <meta property="og:title" content="ATSScoreboard — Resume Checker Chrome Extension" />
     <meta property="og:description"
-        content="Score your resume against any job description. AI-powered coaching, keyword tailoring, and ATS optimization." />
+        content="Score your resume against the live job post, review the extracted JD, and see exact vs. semantic match evidence before you apply." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://atsscoreboard.me/" />
     <meta name="theme-color" content="#0d3b42" />
@@ -302,10 +302,12 @@
             grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr);
             gap: 44px;
             align-items: center;
+            position: relative;
         }
 
         .hero-copy {
             text-align: left;
+            max-width: 640px;
         }
 
         .hero-badge {
@@ -462,24 +464,70 @@
         .hero-note {
             font-size: 13px;
             color: var(--muted);
-            opacity: .85
+            opacity: .85;
+            margin-top: 14px
+        }
+
+        .hero-mini-proof {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .hero-mini-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .78);
+            border: 1px solid rgba(26, 92, 102, .12);
+            box-shadow: 0 10px 24px rgba(28, 34, 48, .06);
+            font-size: 12.5px;
+            color: var(--text-2);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-mini-pill::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--teal-500), var(--bronze-500));
+            box-shadow: 0 0 0 4px rgba(42, 128, 144, .10);
         }
 
         .hero-proof-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin-top: 28px;
+            gap: 18px;
+            margin-top: 36px;
             grid-column: 1 / -1;
         }
 
         .hero-proof-card {
-            padding: 16px 16px 14px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .7);
+            padding: 20px 20px 18px;
+            border-radius: 22px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 250, 245, .78)),
+                radial-gradient(circle at top right, rgba(42, 128, 144, .05), transparent 42%);
             border: 1px solid rgba(26, 92, 102, .1);
             box-shadow: var(--shadow);
             text-align: left;
+            position: relative;
+            overflow: hidden;
+            min-height: 172px;
+        }
+
+        .hero-proof-card::after {
+            content: '';
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(42, 128, 144, .9), rgba(154, 107, 53, .65));
+            opacity: .85;
         }
 
         .hero-proof-label {
@@ -522,6 +570,28 @@
             margin: 52px auto 0;
             max-width: 520px;
             position: relative;
+            isolation: isolate;
+        }
+
+        .hero-mockup-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 16px -28px -28px 24px;
+            border-radius: 38px;
+            background: linear-gradient(140deg, rgba(42, 128, 144, .16), rgba(154, 107, 53, .10));
+            filter: blur(34px);
+            opacity: .7;
+            z-index: -2;
+        }
+
+        .hero-mockup-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -18px 18px 18px -18px;
+            border-radius: 42px;
+            border: 1px solid rgba(26, 92, 102, .08);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0));
+            z-index: -1;
         }
 
         .hero-mockup {
@@ -668,8 +738,8 @@
             position: absolute;
             background: rgba(255, 255, 255, .95);
             border: 1px solid rgba(26, 92, 102, .1);
-            border-radius: 12px;
-            padding: 8px 12px;
+            border-radius: 14px;
+            padding: 10px 14px;
             font-size: 12px;
             font-weight: 700;
             box-shadow: 0 8px 24px rgba(28, 34, 48, .12);
@@ -947,6 +1017,35 @@
             padding: 80px 24px 60px
         }
 
+        .pricing-helper {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: -16px 0 28px;
+        }
+
+        .pricing-helper-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .72);
+            border: 1px solid rgba(26, 92, 102, .10);
+            color: var(--text-2);
+            font-size: 12.5px;
+            box-shadow: 0 8px 22px rgba(28, 34, 48, .06);
+        }
+
+        .pricing-helper-pill::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--teal-500), var(--bronze-500));
+        }
+
         .price-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -955,7 +1054,9 @@
         }
 
         .price-card {
-            background: rgba(255, 255, 255, .7);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 252, 247, .82)),
+                radial-gradient(circle at top right, rgba(42, 128, 144, .05), transparent 38%);
             border: 1px solid rgba(26, 92, 102, .09);
             border-radius: var(--r-xl);
             padding: 34px 28px;
@@ -964,6 +1065,17 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+
+        .price-card::before {
+            content: '';
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(42, 128, 144, .92), rgba(154, 107, 53, .72));
+            opacity: .7;
         }
 
         .price-card:hover {
@@ -1000,6 +1112,22 @@
             margin-bottom: 4px
         }
 
+        .price-plan-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            margin: 0 auto 12px;
+            font-size: 10.5px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--teal-700);
+            background: rgba(213, 238, 242, .68);
+            border: 1px solid rgba(26, 92, 102, .10);
+        }
+
         .price-amount {
             font-family: var(--font-display);
             font-size: 46px;
@@ -1018,6 +1146,21 @@
             color: var(--muted);
             margin-bottom: 22px;
             font-style: italic
+        }
+
+        .price-note {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin: -6px 0 18px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(250, 243, 234, .82);
+            border: 1px solid rgba(154, 107, 53, .14);
+            font-size: 12.5px;
+            color: var(--text-2);
         }
 
         .price-features {
@@ -1493,6 +1636,10 @@
                 justify-content: center;
             }
 
+            .hero-mini-proof {
+                justify-content: center;
+            }
+
             .hero-proof-grid {
                 grid-template-columns: 1fr;
             }
@@ -1584,6 +1731,12 @@
                 justify-content: center;
             }
 
+            .hero-mini-pill,
+            .pricing-helper-pill {
+                width: 100%;
+                justify-content: center;
+            }
+
             .feat-grid {
                 grid-template-columns: 1fr
             }
@@ -1656,13 +1809,8 @@
         { "@type": "Offer", "price": "9", "priceCurrency": "USD", "name": "Pro" },
         { "@type": "Offer", "price": "19", "priceCurrency": "USD", "name": "Elite" }
       ],
-      "description": "Score your resume against any job description. AI-powered coaching, keyword tailoring, and ATS optimization. Free Chrome extension.",
-      "url": "https://atsscoreboard.me/",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "2400"
-      }
+      "description": "Score your resume against the live job post, review the extracted JD, and see exact vs. semantic match evidence before you apply.",
+      "url": "https://atsscoreboard.me/"
     }
     </script>
 </head>
@@ -1708,23 +1856,28 @@
             <div class="hero-shell">
                 <div class="hero-copy">
                     <div class="hero-kicker"><span class="hero-kicker-line"></span> Resume checker for serious job seekers</div>
-            <div class="hero-badge"><span class="dot"></span> v2.2 - Tailor Wizard, Company Intel, Multi-Resume Profiles</div>
+            <div class="hero-badge"><span class="dot"></span> v2.3 - JD Review, Semantic Match Evidence, Smarter Tailoring</div>
             <h1>Score your resume.<br>Fix the gaps.<br>Win the <em>interview</em>.</h1>
-            <p class="hero-sub">ATSScoreboard checks the resume you already have against the job you actually want. See the missing keywords, culture-fit signals, weak bullets, and ATS parsing issues in one pass.</p>
+            <p class="hero-sub">ATSScoreboard compares the resume you already have against the live job post you actually want. Review the extracted JD, see the strongest gaps, and separate exact keyword matches from AI semantic fairness credit.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary"
                     href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
                     target="_blank" rel="noopener noreferrer">Install Chrome Extension</a>
                 <a class="btn btn-secondary" href="/pricing.html">See Plans</a>
             </div>
-            <p class="hero-note">Free forever for scoring, keyword analysis, parse preview, and job-by-job history.</p>
+            <div class="hero-mini-proof">
+                <div class="hero-mini-pill">Review the extracted JD before trusting score</div>
+                <div class="hero-mini-pill">See exact matches and semantic credit separately</div>
+                <div class="hero-mini-pill">Starter is free with no card required</div>
+            </div>
+            <p class="hero-note">Starter includes free scoring, JD review, parse preview, and 3 AI semantic fairness checks.</p>
 
                 </div>
 
             <!-- Live mockup -->
             <div class="hero-mockup-wrap">
-                <div class="mockup-float mockup-float-1">+3 new keywords found</div>
-                <div class="mockup-float mockup-float-2">AI Coach ready</div>
+                <div class="mockup-float mockup-float-1">JD reviewed</div>
+                <div class="mockup-float mockup-float-2">+1 semantic match</div>
                 <div class="hero-mockup">
                     <div class="mockup-header">
                         <div class="mockup-icon"><img src="/assets/ats-logo.svg" alt="ATSScoreboard logo"></div>
@@ -1778,46 +1931,46 @@
             </div>
             <div class="hero-proof-grid">
                 <article class="hero-proof-card">
+                    <div class="hero-proof-label">JD Review &amp; Edit</div>
+                    <strong>Verify the posting before you trust the score.</strong>
+                    <p>See the extracted JD, correct noisy capture, and re-run with the version you actually want scored.</p>
+                </article>
+                <article class="hero-proof-card">
+                    <div class="hero-proof-label">Match Evidence</div>
+                    <strong>See exact matches and semantic credit separately.</strong>
+                    <p>Understand why the score moved instead of relying on a black-box number.</p>
+                </article>
+                <article class="hero-proof-card">
                     <div class="hero-proof-label">Guided Tailor Wizard</div>
-                    <strong>Turn missing keywords into ready-to-paste resume bullets.</strong>
-                    <p>Walk through each gap with templates that adapt to your skill type instead of generic filler.</p>
-                </article>
-                <article class="hero-proof-card">
-                    <div class="hero-proof-label">Company Culture Intel</div>
-                    <strong>Read what the employer values before you rewrite.</strong>
-                    <p>Detect autonomy, collaboration, innovation, and other signals straight from the posting.</p>
-                </article>
-                <article class="hero-proof-card">
-                    <div class="hero-proof-label">Multi-Resume Profiles</div>
-                    <strong>Keep several polished resume versions ready to switch.</strong>
-                    <p>Save up to 8 targeted profiles and compare which one gives you the strongest match.</p>
+                    <strong>Work on the highest-impact gaps first.</strong>
+                    <p>Turn missing keywords into resume bullets you can adapt from real experience.</p>
                 </article>
             </div>
         </div>
         </div>
     </section>
 
-    <!-- Social proof -->
+    <!-- Product proof -->
     <section class="social-proof">
         <div class="social-strip reveal">
             <div class="social-stat">
-                <div class="social-stat-num" id="stat-users">2,400+</div>
-                <div class="social-stat-label">Chrome users</div>
+                <div class="social-stat-num">10+</div>
+                <div class="social-stat-label">Supported job boards</div>
             </div>
             <div class="social-divider"></div>
             <div class="social-stat">
-                <div class="social-stat-num">50,000+</div>
-                <div class="social-stat-label">Resumes scored</div>
+                <div class="social-stat-num">3-part</div>
+                <div class="social-stat-label">Score breakdown</div>
             </div>
             <div class="social-divider"></div>
             <div class="social-stat">
-                <div class="social-stat-num">494</div>
-                <div class="social-stat-label">Skills tracked</div>
+                <div class="social-stat-num">JD review</div>
+                <div class="social-stat-label">Edit and re-run before trusting score</div>
             </div>
             <div class="social-divider"></div>
             <div class="social-stat">
-                <div class="social-stat-num">4.8 ★</div>
-                <div class="social-stat-label">Avg rating</div>
+                <div class="social-stat-num">No account</div>
+                <div class="social-stat-label">Required for Starter</div>
             </div>
         </div>
     </section>
@@ -1829,7 +1982,7 @@
             <div class="section-label reveal">
                 <div class="section-eyebrow">How it works</div>
                 <h2>From install to insights in 30 seconds</h2>
-                <p>No accounts. No uploads. No setup. Just open any job posting and analyze.</p>
+                <p>No account setup. No complicated workflow. Just open a job posting, add your resume, and analyze.</p>
             </div>
             <div class="steps">
                 <div class="step reveal reveal-delay-1">
@@ -1850,7 +2003,7 @@
                 <div class="step reveal reveal-delay-4">
                     <div class="step-num">4</div>
                     <h3>Get your score</h3>
-                    <p>Instant ATS match score, keyword gaps, parse preview, and AI coaching suggestions.</p>
+                    <p>Get an ATS match score, review the extracted JD, inspect the evidence, and fix the clearest next gap.</p>
                 </div>
             </div>
         </div>
@@ -1861,27 +2014,26 @@
         <div class="section-wrap">
             <div class="section-label reveal">
                 <div class="section-eyebrow">Features</div>
-                <h2>Everything you need to beat the ATS</h2>
-                <p>Upload or paste your resume, open any job posting, and get instant, actionable feedback.</p>
+                <h2>See the score. Verify the inputs. Fix the gaps.</h2>
+                <p>Open a supported job posting, add your resume, and get a clearer, more trustworthy read on where you stand.</p>
             </div>
             <div class="feat-grid">
                 <div class="feat-card reveal reveal-delay-1">
                     <div class="feat-icon teal">📊</div>
                     <h3>ATS Match Score</h3>
-                    <p>Three-part breakdown — parseability, keyword match, and structure — so you know exactly where
-                        your resume falls short.</p>
+                    <p>Three-part breakdown - parseability, keyword match, and structure - so you can see whether the
+                        issue is content, formatting, or both.</p>
                 </div>
                 <div class="feat-card reveal reveal-delay-2">
                     <div class="feat-icon bronze">🔑</div>
-                    <h3>Keyword Analysis</h3>
-                    <p>See every missing and matched keyword, split by required vs. preferred. Covers 494 skills across
-                        tech, business, and design.</p>
+                    <h3>JD Review &amp; Edit</h3>
+                    <p>Inspect the job description used for scoring, verify the source, edit noisy extraction, and
+                        re-run with confidence.</p>
                 </div>
                 <div class="feat-card reveal reveal-delay-3">
                     <div class="feat-icon green">📋</div>
-                    <h3>Parse Preview</h3>
-                    <p>See what the ATS actually reads — section order, contact extraction, heading detection, and
-                        format risk warnings.</p>
+                    <h3>Match Evidence</h3>
+                    <p>Separate exact keyword matches from AI semantic fairness credit so the score is easier to trust.</p>
                 </div>
                 <div class="feat-card reveal reveal-delay-1">
                     <div class="feat-icon teal">🎯</div>
@@ -1892,47 +2044,46 @@
                 <div class="feat-card reveal reveal-delay-2">
                     <div class="feat-icon bronze">🤖</div>
                     <h3>AI Coach <span class="badge-pro">PRO</span></h3>
-                    <p>Get a score verdict, rewritten resume bullets, and keyword suggestions powered by Claude. Honest
-                        — won't fabricate skills you don't have.</p>
+                    <p>Get a score verdict, stronger bullet suggestions, and next-step guidance powered by Claude
+                        without inventing skills you do not have.</p>
                 </div>
                 <div class="feat-card reveal reveal-delay-3">
-                    <div class="feat-icon green">🏢</div>
-                    <h3>Company Intel <span class="badge-pro">ELITE</span></h3>
-                    <p>Auto-detects the company, role, and culture signals from the job posting. Get resume tips matched
-                        to each company's values.</p>
+                    <div class="feat-icon green">📈</div>
+                    <h3>Score History</h3>
+                    <p>Re-run the same job after you edit and see whether your changes actually improved the score.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- Product principles -->
     <section class="testimonials">
         <div class="section-wrap">
             <div class="section-label reveal">
-                <div class="section-eyebrow">What people say</div>
-                <h2>Trusted by job seekers worldwide</h2>
+                <div class="section-eyebrow">Why It Feels Different</div>
+                <h2>Built to be direct, not flattering</h2>
             </div>
             <div class="testimonial-grid">
                 <div class="testimonial-card reveal reveal-delay-1">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">I used ATSScoreboard for every application in my job search. The keyword
-                        gap analysis alone saved me hours of guessing what recruiters were looking for.</p>
-                    <div class="testimonial-author">Priya S.</div>
-                    <div class="testimonial-role">Software Engineer · Toronto</div>
+                    <div class="testimonial-stars">Fair Movement</div>
+                    <p class="testimonial-text">Scoring is tuned so obvious fixes move the result the way users expect,
+                        instead of hiding real progress behind unreachable buckets.</p>
+                    <div class="testimonial-author">Calibrated weighting</div>
+                    <div class="testimonial-role">Better movement when real gaps are fixed</div>
                 </div>
                 <div class="testimonial-card reveal reveal-delay-2">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">The AI Coach is worth every penny. It rewrote my experience bullets in a
-                        way I never would have thought of — and I started getting callbacks within a week.</p>
-                    <div class="testimonial-author">Marcus T.</div>
-                    <div class="testimonial-role">Product Manager · Austin</div>
+                    <div class="testimonial-stars">Visible Inputs</div>
+                    <p class="testimonial-text">Review the extracted JD, inspect the parse preview, and verify what the
+                        scorer actually used before you act on the result.</p>
+                    <div class="testimonial-author">JD review + parse preview</div>
+                    <div class="testimonial-role">Less guessing, more confidence</div>
                 </div>
                 <div class="testimonial-card reveal reveal-delay-3">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">Finally a tool that's actually honest. It told me my resume was missing
-                        half the required skills — hard to hear, but exactly what I needed to fix it.</p>
-                    <div class="testimonial-author">Jenna K.</div>
-                    <div class="testimonial-role">UX Designer · London</div>
+                    <div class="testimonial-stars">Explainable Evidence</div>
+                    <p class="testimonial-text">Exact wording and semantic credit are shown separately, so AI never
+                        quietly inflates the score behind the scenes.</p>
+                    <div class="testimonial-author">Exact vs. semantic proof</div>
+                    <div class="testimonial-role">Fairness without black-box scoring</div>
                 </div>
             </div>
         </div>
@@ -1945,17 +2096,25 @@
             <div class="section-label reveal">
                 <div class="section-eyebrow">Pricing</div>
                 <h2>Simple, honest pricing</h2>
-                <p>Scoring is free forever. Upgrade only when you want AI-powered coaching.</p>
+                <p>Start free with scoring, JD review, parse preview, and limited AI semantic fairness checks. Upgrade
+                    when you want coaching and deeper tailoring.</p>
+            </div>
+            <div class="pricing-helper reveal">
+                <div class="pricing-helper-pill">Monthly plans, cancel anytime</div>
+                <div class="pricing-helper-pill">Starter includes 3 AI semantic checks</div>
+                <div class="pricing-helper-pill">Manage billing inside the extension</div>
             </div>
             <div class="price-row">
                 <div class="price-card reveal reveal-delay-1">
+                    <div class="price-plan-chip">Start here</div>
                     <h3>Starter</h3>
                     <div class="price-amount">Free</div>
                     <div class="price-sub">No card required</div>
+                    <div class="price-note">Score the live job post and verify the JD first.</div>
                     <ul class="price-features">
                         <li><span class="check">✓</span> ATS score &amp; keywords</li>
-                        <li><span class="check">✓</span> Parse preview</li>
-                        <li><span class="check">✓</span> 3 history entries per JD</li>
+                        <li><span class="check">✓</span> JD review &amp; parse preview</li>
+                        <li><span class="check">✓</span> 3 AI semantic fairness checks</li>
                         <li><span class="check">✓</span> 1 saved resume</li>
                         <li><span class="cross">—</span> AI Coach</li>
                         <li><span class="cross">—</span> Tailor wizard</li>
@@ -1964,14 +2123,17 @@
                 </div>
                 <div class="price-card popular reveal reveal-delay-2">
                     <div class="price-popular-tag">Most Popular</div>
+                    <div class="price-plan-chip">Best value</div>
                     <h3>Pro</h3>
                     <div class="price-amount">$9<span>/mo</span></div>
                     <div class="price-sub">Land more interviews</div>
+                    <div class="price-note">Add AI Coach, Tailor Wizard, and unlimited semantic review.</div>
                     <ul class="price-features">
                         <li><span class="check">✓</span> Everything in Starter</li>
                         <li><span class="check">✓</span> AI Coach (bullet rewrites)</li>
+                        <li><span class="check">✓</span> Unlimited AI semantic matching</li>
                         <li><span class="check">✓</span> Tailor wizard</li>
-                        <li><span class="check">✓</span> Unlimited history</li>
+                        <li><span class="check">✓</span> 50 history entries</li>
                         <li><span class="check">✓</span> 4 saved resumes</li>
                         <li><span class="check">✓</span> Export reports</li>
                     </ul>
@@ -1980,13 +2142,17 @@
                         target="_blank" rel="noopener noreferrer">Get Pro</a>
                 </div>
                 <div class="price-card reveal reveal-delay-3">
+                    <div class="price-plan-chip">Deep analysis</div>
                     <h3>Elite</h3>
                     <div class="price-amount">$19<span>/mo</span></div>
                     <div class="price-sub">Unfair advantage</div>
+                    <div class="price-note">Priority semantic matching, Sonnet, and higher limits.</div>
                     <ul class="price-features">
                         <li><span class="check">✓</span> Everything in Pro</li>
+                        <li><span class="check">✓</span> Priority AI semantic matching</li>
                         <li><span class="check">✓</span> Company culture intel</li>
-                        <li><span class="check">✓</span> Priority AI (Sonnet)</li>
+                        <li><span class="check">✓</span> 100 history entries</li>
+                        <li><span class="check">✓</span> Priority AI (Claude Sonnet)</li>
                         <li><span class="check">✓</span> 8 saved resumes</li>
                         <li><span class="check">✓</span> Priority support</li>
                     </ul>
@@ -2009,19 +2175,19 @@
             <div class="trust-inner reveal">
                 <div class="trust-item">
                     <div class="trust-icon">🔒</div>
-                    <div><strong>Privacy first</strong><br><span>Data processed transiently, never stored</span></div>
+                    <div><strong>Transient processing</strong><br><span>Resume and JD text are processed to generate results, not kept as long-term analysis archives</span></div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">🔎</div>
+                    <div><strong>Current-page access</strong><br><span>Reads the job page you choose to analyze, not your background browsing</span></div>
                 </div>
                 <div class="trust-item">
                     <div class="trust-icon">💳</div>
-                    <div><strong>Secure payments</strong><br><span>All billing through Stripe</span></div>
+                    <div><strong>Secure payments</strong><br><span>Subscriptions and billing handled through Stripe</span></div>
                 </div>
                 <div class="trust-item">
                     <div class="trust-icon">🚫</div>
-                    <div><strong>Independent</strong><br><span>Not affiliated with any employer or ATS</span></div>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-icon">⚡</div>
-                    <div><strong>Instant results</strong><br><span>Analysis in under 3 seconds</span></div>
+                    <div><strong>Independent</strong><br><span>Not affiliated with employers, job boards, or ATS vendors</span></div>
                 </div>
             </div>
         </div>
@@ -2032,8 +2198,8 @@
         <div class="final-cta-bg"></div>
         <div class="final-cta-inner reveal">
             <h2>Ready to beat the ATS?</h2>
-            <p>Join thousands of job seekers who stopped guessing and started scoring. Install in one click — it's free.
-            </p>
+            <p>Review the JD, fix the strongest gaps, and apply with a clearer signal. Install in one click and start
+                with Starter for free.</p>
             <a class="btn btn-primary"
                 href="https://chromewebstore.google.com/detail/atsscoreboard-resume-chec/inadckglpjpgglocjbbnceplmflemiac"
                 target="_blank" rel="noopener noreferrer">Install ATSScoreboard - Free</a>
@@ -2047,8 +2213,8 @@
         <div class="footer-inner">
             <div>
                 <div class="footer-brand"><span class="footer-brand-mark"><img src="/assets/ats-logo.svg" alt="ATSScoreboard logo"></span><span>ATSScoreboard</span></div>
-                <div class="footer-desc">The fastest way to score, fix, and tailor your resume for any job description.
-                    Free forever to use, upgrade when you need AI coaching.</div>
+                <div class="footer-desc">Score, verify, and tailor your resume against the live job post before you
+                    apply. Start free, upgrade when you need deeper AI help.</div>
             </div>
             <div class="footer-col">
                 <h4>Links</h4>

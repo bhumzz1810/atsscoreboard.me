@@ -590,9 +590,9 @@
 
             <div class="card">
                 <h2 id="what">What ATSScoreboard does</h2>
-                <p>ATSScoreboard is a Chrome extension and web service that compares your resume to job descriptions,
-                    generates an ATS-style match score, identifies keyword gaps, and provides improvement suggestions
-                    including AI-powered coaching.</p>
+                <p>ATSScoreboard is a Chrome extension and web service that compares your resume to live job
+                    descriptions, generates an ATS-style match score, shows JD review and match evidence, and provides
+                    improvement suggestions including AI coaching.</p>
 
                 <h2 id="data">Data we process</h2>
                 <ul>
@@ -608,8 +608,8 @@
 
                 <h2 id="use">How we use data</h2>
                 <ul>
-                    <li>Generate match scores, keyword-gap reports, and parse previews.</li>
-                    <li>Provide Pro and Elite features such as AI coaching, tailor wizard, and company intel.</li>
+                    <li>Generate match scores, keyword-gap reports, JD review, match evidence, and parse previews.</li>
+                    <li>Provide Starter semantic fairness checks and paid features such as AI Coach, Tailor Wizard, and company culture intel.</li>
                     <li>Protect the service from abuse (rate limiting) and maintain reliability.</li>
                     <li>Process subscription payments through Stripe.</li>
                 </ul>
@@ -617,18 +617,15 @@
                 <h2 id="storage">Storage and retention</h2>
                 <p>Resume and job description content is processed <strong>transiently</strong> — we generate results
                     and do
-                    not store this content long-term. Score history is stored locally in your browser's
-                    <code>chrome.storage.local</code> and never sent to our servers. We may store limited server logs
-                    for
-                    debugging, fraud prevention, and security.
+                    not store this content long-term. Score history and saved resume profiles are stored locally in your browser's
+                    <code>chrome.storage.local</code> and are not sent to our servers as long-term analysis archives. We may store limited server logs
+                    for debugging, fraud prevention, and security.
                 </p>
 
                 <h2 id="ai">AI providers</h2>
-                <p>Pro and Elite features use Anthropic (Claude) to generate AI coaching suggestions. When you click
-                    "Get AI
-                    Analysis," relevant resume and JD text is sent to Anthropic's API for processing. Anthropic does not
-                    use
-                    this data for training. See <a href="https://www.anthropic.com/privacy" target="_blank"
+                <p>AI semantic fairness checks and AI Coach features use Anthropic (Claude). When you run a semantic
+                    review or click "Get AI Analysis," relevant resume and JD text is sent to Anthropic's API for
+                    processing. Anthropic does not use this data for training. See <a href="https://www.anthropic.com/privacy" target="_blank"
                         rel="noopener noreferrer">Anthropic's
                         privacy policy</a>.</p>
 
@@ -644,13 +641,13 @@
                 <ul>
                     <li>Use the free plan with no account or payment information required.</li>
                     <li>Paste text instead of uploading files.</li>
-                    <li>Clear your local score history from Chrome's extension storage at any time.</li>
+                    <li>Clear your local score history and saved resumes from Chrome's extension storage at any time.</li>
                     <li>Cancel your subscription and request deletion of billing metadata by emailing us.</li>
                 </ul>
 
                 <h2 id="contact">Contact</h2>
                 <p>For privacy questions or data deletion requests: <a
-                        href="mailto:bunnyparate7193@gmail.com">bunnyparate7193@gmail.com</a></p>
+                        href="mailto:support.atsscoreboard@gmail.com">support.atsscoreboard@gmail.com</a></p>
             </div>
         </div>
 

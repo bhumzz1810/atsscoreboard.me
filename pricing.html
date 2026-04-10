@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Pricing — ATSScoreboard</title>
     <meta name="description"
-        content="ATSScoreboard pricing — Free scoring forever, Pro $9/mo, Elite $19/mo. Cancel anytime." />
+        content="ATSScoreboard pricing - free scoring, JD review, and 3 AI semantic fairness checks on Starter, with Pro and Elite for coaching and deeper tailoring." />
     <meta property="og:title" content="Pricing — ATSScoreboard" />
-    <meta property="og:description" content="Free resume scoring forever. Pro $9/mo, Elite $19/mo. AI coaching, keyword tailoring, and ATS optimization." />
+    <meta property="og:description" content="Free scoring, JD review, and 3 AI semantic fairness checks on Starter. Upgrade for AI Coach, Tailor Wizard, and deeper analysis." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://atsscoreboard.me/pricing.html" />
     <meta name="theme-color" content="#0d3b42" />
@@ -274,6 +274,60 @@
             margin: 0 auto;
         }
 
+        .hero-chips {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .78);
+            border: 1px solid rgba(26, 92, 102, .10);
+            box-shadow: 0 10px 24px rgba(28, 34, 48, .06);
+            font-size: 12.5px;
+            color: var(--text-2);
+        }
+
+        .hero-chip::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--teal-500), var(--bronze-500));
+        }
+
+        .billing-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin: 10px 0 32px;
+        }
+
+        .billing-pill {
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .72);
+            border: 1px solid rgba(26, 92, 102, .09);
+            box-shadow: var(--shadow);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-2);
+        }
+
+        .billing-pill strong {
+            display: block;
+            color: var(--teal-900);
+            margin-bottom: 4px;
+            font-size: 13.5px;
+        }
+
         /* ── Price cards ── */
         .page-wrap {
             max-width: 1080px;
@@ -289,7 +343,9 @@
         }
 
         .price-card {
-            background: rgba(255, 255, 255, .7);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 252, 247, .82)),
+                radial-gradient(circle at top right, rgba(42, 128, 144, .05), transparent 40%);
             border: 1px solid rgba(26, 92, 102, .08);
             border-radius: var(--r-xl);
             padding: 34px 28px;
@@ -298,6 +354,17 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+
+        .price-card::before {
+            content: '';
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(42, 128, 144, .92), rgba(154, 107, 53, .72));
+            opacity: .72;
         }
 
         .price-card:hover {
@@ -334,6 +401,22 @@
             margin-bottom: 4px;
         }
 
+        .price-plan-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            margin: 0 auto 12px;
+            font-size: 10.5px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--teal-700);
+            background: rgba(213, 238, 242, .68);
+            border: 1px solid rgba(26, 92, 102, .10);
+        }
+
         .price-amt {
             font-family: var(--font-display);
             font-size: 48px;
@@ -352,6 +435,20 @@
             color: var(--muted);
             margin-bottom: 22px;
             font-style: italic;
+        }
+
+        .price-note {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin: -6px 0 18px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(250, 243, 234, .82);
+            border: 1px solid rgba(154, 107, 53, .14);
+            font-size: 12.5px;
+            color: var(--text-2);
         }
 
         .price-list {
@@ -691,6 +788,10 @@
 
         /* ── Responsive ── */
         @media(max-width:900px) {
+            .billing-strip {
+                grid-template-columns: 1fr;
+            }
+
             .price-grid {
                 grid-template-columns: 1fr;
                 max-width: 400px;
@@ -766,6 +867,11 @@
                 margin-top: 8px;
             }
 
+            .hero-chip {
+                width: 100%;
+                justify-content: center;
+            }
+
             .nav-overlay {
                 position: fixed;
                 inset: 0;
@@ -823,43 +929,69 @@
         </div>
         <div class="page-hero-inner">
             <h1>Simple, honest pricing</h1>
-            <p>Scoring is free forever. Upgrade only when you want AI-powered coaching. Cancel anytime.</p>
+            <p>Start free with scoring, JD review, parse preview, and 3 AI semantic fairness checks. Upgrade when you
+                want AI Coach, Tailor Wizard, and deeper analysis.</p>
+            <div class="hero-chips">
+                <div class="hero-chip">Starter includes 3 AI semantic checks</div>
+                <div class="hero-chip">Manage billing inside the extension</div>
+                <div class="hero-chip">Monthly plans, cancel anytime</div>
+            </div>
         </div>
     </section>
 
     <div class="page-wrap">
+        <div class="billing-strip reveal">
+            <div class="billing-pill">
+                <strong>Start free</strong>
+                Score the live job post, review the JD, and validate the basics before paying.
+            </div>
+            <div class="billing-pill">
+                <strong>Upgrade when needed</strong>
+                Add AI Coach and Tailor Wizard once you want deeper resume help.
+            </div>
+            <div class="billing-pill">
+                <strong>Clear limits</strong>
+                Semantic checks, history caps, and saved resumes are spelled out plan by plan.
+            </div>
+        </div>
 
         <!-- Price cards -->
         <div class="price-grid">
             <div class="price-card reveal">
+                <div class="price-plan-chip">Start here</div>
                 <h3>Starter</h3>
                 <div class="price-amt">Free</div>
                 <div class="price-tag">No card required</div>
+                <div class="price-note">Score the live job post and verify the JD first.</div>
                 <ul class="price-list">
                     <li><span class="ck">✓</span> ATS score & keyword analysis</li>
-                    <li><span class="ck">✓</span> Parse preview</li>
+                    <li><span class="ck">✓</span> JD review & parse preview</li>
+                    <li><span class="ck">✓</span> 3 AI semantic fairness checks</li>
                     <li><span class="ck">✓</span> 3 history entries per JD</li>
                     <li><span class="ck">✓</span> 1 saved resume profile</li>
                     <li><span class="xx">—</span> AI Coach</li>
                     <li><span class="xx">—</span> Tailor wizard</li>
-                    <li><span class="xx">—</span> Company intel</li>
+                    <li><span class="xx">—</span> Company culture intel</li>
                     <li><span class="xx">—</span> Export reports</li>
                 </ul>
                 <span class="p-btn cur">Current plan</span>
             </div>
             <div class="price-card pop reveal reveal-delay-1">
                 <div class="pop-tag">Most Popular</div>
+                <div class="price-plan-chip">Best value</div>
                 <h3>Pro</h3>
                 <div class="price-amt">$9<span>/mo</span></div>
                 <div class="price-tag">Land more interviews</div>
+                <div class="price-note">Add AI Coach, Tailor Wizard, and unlimited semantic review.</div>
                 <ul class="price-list">
                     <li><span class="ck">✓</span> Everything in Starter</li>
                     <li><span class="ck">✓</span> AI Coach (bullet rewrites)</li>
+                    <li><span class="ck">✓</span> Unlimited AI semantic matching</li>
                     <li><span class="ck">✓</span> Tailor wizard</li>
-                    <li><span class="ck">✓</span> Unlimited history</li>
+                    <li><span class="ck">✓</span> 50 history entries</li>
                     <li><span class="ck">✓</span> 4 saved resumes</li>
                     <li><span class="ck">✓</span> Export reports</li>
-                    <li><span class="xx">—</span> Company intel</li>
+                    <li><span class="xx">—</span> Company culture intel</li>
                     <li><span class="xx">—</span> Priority AI model</li>
                 </ul>
                 <a class="p-btn go"
@@ -867,12 +999,16 @@
                     target="_blank" rel="noopener noreferrer">Get Pro</a>
             </div>
             <div class="price-card reveal reveal-delay-2">
+                <div class="price-plan-chip">Deep analysis</div>
                 <h3>Elite</h3>
                 <div class="price-amt">$19<span>/mo</span></div>
                 <div class="price-tag">Unfair advantage</div>
+                <div class="price-note">Priority semantic matching, Sonnet, and higher limits.</div>
                 <ul class="price-list">
                     <li><span class="ck">✓</span> Everything in Pro</li>
+                    <li><span class="ck">✓</span> Priority AI semantic matching</li>
                     <li><span class="ck">✓</span> Company culture intel</li>
+                    <li><span class="ck">✓</span> 100 history entries</li>
                     <li><span class="ck">✓</span> Priority AI (Claude Sonnet)</li>
                     <li><span class="ck">✓</span> 8 saved resumes</li>
                     <li><span class="ck">✓</span> Priority support</li>
@@ -916,10 +1052,22 @@
                         <td class="c-yes">✓</td>
                     </tr>
                     <tr>
+                        <td>JD review & edit</td>
+                        <td class="c-yes">✓</td>
+                        <td class="c-yes">✓</td>
+                        <td class="c-yes">✓</td>
+                    </tr>
+                    <tr>
+                        <td>AI semantic fairness checks</td>
+                        <td>3 total</td>
+                        <td class="c-yes">Unlimited</td>
+                        <td class="c-yes">Priority unlimited</td>
+                    </tr>
+                    <tr>
                         <td>Score history</td>
                         <td>3 per JD</td>
-                        <td class="c-yes">Unlimited</td>
-                        <td class="c-yes">Unlimited</td>
+                        <td>50 entries</td>
+                        <td>100 entries</td>
                     </tr>
                     <tr>
                         <td>Saved resumes</td>
@@ -954,8 +1102,8 @@
                     <tr>
                         <td>AI model</td>
                         <td class="c-no">—</td>
-                        <td>Haiku</td>
-                        <td>Sonnet</td>
+                        <td>Claude Haiku</td>
+                        <td>Claude Sonnet</td>
                     </tr>
                     <tr>
                         <td>Priority support</td>
@@ -999,19 +1147,20 @@
             </div>
             <div class="faq-item">
                 <button class="faq-q" aria-expanded="false">
-                    What AI model powers the coaching?
+                    What AI powers semantic review and coaching?
                     <span class="faq-arrow">▼</span>
                 </button>
-                <div class="faq-a">Pro uses Claude Haiku for fast, accurate suggestions. Elite uses Claude Sonnet for
-                    deeper, more nuanced analysis and rewrites.</div>
+                <div class="faq-a">Starter includes 3 Anthropic-powered semantic fairness checks. Pro uses Claude
+                    Haiku for AI Coach and unlimited semantic matching. Elite uses Claude Sonnet for deeper analysis
+                    plus priority semantic matching.</div>
             </div>
             <div class="faq-item">
                 <button class="faq-q" aria-expanded="false">
                     Is my resume data stored?
                     <span class="faq-arrow">▼</span>
                 </button>
-                <div class="faq-a">No. Resume and JD content is processed transiently — we generate results and discard
-                    the content. Score history stays in your browser's local storage. See <a
+                <div class="faq-a">No. Resume and JD content is processed transiently to generate results. Score
+                    history and saved resumes stay in your Chrome extension storage. See <a
                         href="/privacy.html">Privacy Policy</a>.</div>
             </div>
             <div class="faq-item">
